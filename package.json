@@ -1,0 +1,21 @@
+{
+  "name": "voltai-contract-guard",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Voltai Contract Guard · 销售合同风险审查：可执行 Skill + Pi Agent SDK 示例 + Web 应用",
+  "license": "MIT",
+  "author": "Hedy",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node app/server.mjs",
+    "dev": "node app/server.mjs",
+    "example:ingest": "node examples/pi-sdk-ingest/test.mjs",
+    "check": "node --check app/server.mjs && node --check examples/pi-sdk-ingest/test.mjs"
+  },
+  "dependencies": {
+    "@earendil-works/pi-coding-agent": "^1.4.0"
+  }
+}

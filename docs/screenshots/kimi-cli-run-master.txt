@@ -1,0 +1,1000 @@
+﻿kimi : kimi version 2.3.1
+所在位置 行:15 字符: 1172
++ ... t@trae.ai'; kimi -p "请使用 contract-risk-audit 总 skill 审查 .kimi-code/do ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (kimi version 2.3.1:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+• 我会按指示调用总 skill。
+
+• Let me read the contract and the two sub-skills.Now step 2: parse. I should produce the parsing result internally (no
+t print category_index to user per orchestrator). Then step 4: read contract-risk-review SKILL.md and scoring rubric.
+
+  Let me read the risk review skill and rubric now — but the orchestrator says sequentially. I can read them now since 
+I need them; but the process requires step 2 output first. I'll do the parsing internally (it's straightforward, 16 cla
+uses), then read the review skill.
+
+  Let me first build the clause library. Actually let me read the review skill + rubric in parallel with doing parsing 
+mentally.
+
+  Better: do parsing output now as internal artifact. I'll produce it as part of my working (not final output). Then re
+ad review skill.
+
+  Let me read the review skill and rubric now since parsing is straightforward and I have the full text.
+
+• 合同文件已读取。现在执行第 1 个子 skill（条款解析），先固定条款库与 14 项商务要素。
+
+• Now, step 2 parsing internally. Let me construct clause library and 14 facts.
+
+  Clauses: 1 Definitions, 2 Appointment, 3 Orders and Acceptance, 4 Price and Taxes, 5 Payment, 6 Delivery and Risk, 7 
+Warranty, 8 Limitation of Liability, 9 Delay Penalties, 10 Term and Termination, 11 IP, 12 Confidentiality, 13 Force Ma
+jeure, 14 Governing Law and Disputes, 15 Compliance, 16 Miscellaneous. 16 clauses.
+
+  Facts:
+  - currency: USD, clause 4, "Prices are stated in USD"
+  - payment_days: 120 days from invoice date, clause 5
+  - price_adjustment: none ("No price adjustment mechanism applies.") clause 4
+  - delivery_terms: DAP Rotterdam, clause 6
+  - risk_transfer: upon loading at Supplier's factory, clause 6
+  - acceptance_period: 7 days after delivery deemed accepted, clause 3
+  - warranty_period: 12 months from date of shipment from factory, clause 7
+  - warranty_response: 未约定 (no field service / response time commitment) — clause 7 quote "No field service, replacemen
+t or response time commitment is provided."
+  - penalty: 30% per week uncapped, clause 9
+  - liability_cap: 未约定 (unlimited), clause 8
+  - termination: Distributor any time 30 days convenience; Supplier only insolvency/material breach 90 days cure, claus
+e 10
+  - ip_ownership: vests exclusively in Distributor, clause 11
+  - confidentiality_term: unlimited for Distributor's info; Supplier's info no restriction, clause 12
+  - compliance: worldwide sanctions/export control/battery regs warranty, clause 15
+
+  Now review — stance supplier. Let me analyze the 12 categories.
+
+  1. 付款与账期: 120 days from invoice date, no interest, no suspension right. Rubric P0 hard condition: 账期 > 120 天 (not >12
+0, exactly 120), "逾期不计息且供应商无暂停交付权" — yes that's a P0 hard condition. Actually condition list: "账期 > 120 天；验收后付款且验收无期限；逾
+期不计息且供应商无暂停交付权" — the third applies → P0. Also 120 days is at the boundary. With 120-day terms plus 90-day advance PO +
+ DAP delivery, cash cycle ~ much longer. P0.
+
+  2. 价格与汇率: fixed price USD for 5 years, no adjustment, distributor bears all levies. Contract term 5 years > 2 years, 
+but the rubric P0 says "固定价 + 单方承担全部汇率波动 + 无调价机制，且合同期 > 2 年". Hmm — "单方承担全部汇率波动" implies risk allocated to one party. H
+ere price is in USD and fixed; Supplier is German (EUR costs), so supplier bears USD/EUR FX risk. Supplier sells in USD
+, incurs EUR costs → supplier bears FX. And fixed for 5 years, no adjustment. Does the contract say who bears FX? Not e
+xplicitly; but fixed USD price for entire term means supplier bears USD depreciation. Also distributor bears taxes/duti
+es. Currency mismatch: supplier's cost EUR, revenue USD. This qualifies as P0 under "固定价 + 单方承担全部汇率波动 + 无调价机制，且合同期 > 2 
+年" — arguably yes for supplier. I'd rate P0. Hmm, but is it truly "单方承担全部汇率波动"? The contract doesn't allocate FX explic
+itly; the fixed USD price for 5 years implies supplier absorbs. I'll rate P0 with evidence "Prices are stated in USD an
+d are fixed for the entire term... No price adjustment mechanism applies." That's a defensible P0 for a German supplier
+ over 5 years. Let me be careful about over-rating. The rubric explicitly: contract term > 2 years (5 years), fixed pri
+ce, no adjustment mechanism → P0. Yes. I'll say P0.
+
+  Actually let me consider P1: "汇率波动阈值 > 7% 且无复核时限；税费归属单向" — 税费归属单向 is present (all customs duties, VAT, withholding ta
+xes borne by Distributor — that's actually favorable to supplier... though withholding tax borne by distributor is fine
+). Hmm the fee allocation is one-way against distributor = favorable to supplier, not a supplier risk. But the fixed pr
+ice issue is the supplier risk. I'll go P0 for the 5-year fixed USD price, and note it.
+
+  Hmm, but caution: "不把商业偏好写成法律风险". A fixed price for 5 years is a genuine economic risk with quantifiable magnitude (F
+X move of 10% on 5-year revenue). It's P0 per rubric. OK.
+
+  3. 交付与验收: DAP Rotterdam but risk passes at loading at supplier's factory — conflict between Incoterm and risk transfe
+r point, and risk transfers earlier than delivery → P0 hard condition "风险转移早于交付（如工厂装货即转移）" → P0. Also deemed acceptance
+ 7 days with written objection mechanism — 7 days with objection mechanism; rubric P0 says "视为验收期限 ≤ 7 天且无异议机制" — there
+ IS an objection mechanism, so not P0 on that ground. But combined with DAP/risk conflict → P0. I'll make one risk R fo
+r risk transfer conflict (P0), and maybe a P1/P2 for 7-day deemed acceptance given batteries (defects latent). Actually
+ deemed acceptance at 7 days after delivery with only "material defect" written objection — short for battery storage; 
+but objection mechanism exists. Could be P1: "验收期限 8–30 天但标准缺失" — here 7 days with no acceptance standard/criteria defi
+ned. Hmm. I could fold into the same risk or make separate P1. Different issue: short acceptance window + no standard. 
+Let me rate P1 as a separate risk since it's a distinct risk (deemed acceptance). But avoid double counting with warran
+ty start? Warranty starts at shipment, separate.
+
+  Actually, I should be judicious. Let me plan risk list:
+
+  P0:
+  - R1: Clause 8 — unlimited liability incl. indirect/consequential, no cap → P0.
+  - R2: Clause 9 — 30% per week uncapped penalty, one-way → P0.
+  - R3: Clause 5 — 120 days payment + no interest + no suspension → P0.
+  - R4: Clause 6 — risk transfers at factory loading while delivery is DAP Rotterdam (risk earlier than delivery) → P0.
+  - R5: Clause 10 — distributor may terminate for convenience anytime on 30 days; supplier only for insolvency/90-day u
+ncured breach; no post-termination inventory/stock repurchase for supplier, no compensation for unamortized... → P0 (我方
+无终止权 / 对方可随时无责终止).
+  - R6: Clause 11 — all IP vests exclusively in Distributor + supplier indemnifies against any third-party claim relati
+ng to Products (unlimited IP indemnity) → P0.
+  - R7: Clause 4 — fixed USD price 5 years, no adjustment, FX absorbed by supplier → P0.
+  - R8: Clause 12 — confidentiality one-way unlimited + supplier's info unrestricted → P0? Rubric: 保密与数据 P0 = "保密义务无限期且
+单向；无数据跨境条款却涉及客户数据". Yes: unlimited period for distributor's info, and supplier's info may be disclosed without restrict
+ion → P0. Hmm, is confidentiality P0 too much? Rubric says P0 hard condition met. It's one-way and unlimited. I'd rate 
+P0 per rubric. But arguably this is not "损失多少钱" — it's loss of control over own confidential info (trade secrets/techni
+cal data) → "丧失什么权利" = loss of confidentiality protection for its technical info, potentially unlimited duration trade 
+secret exposure. Yes P0 defensible. Hmm, but too many P0s may look like inflation. The contract is explicitly "high ris
+k mock". Rubric anchors are mechanical. I'll keep P0 but maybe consider P1... The rubric says P0 hard condition satisfi
+ed → P0. Keep it.
+
+  Also clause 11 IP + clause 12 confidentiality could be merged? No, distinct.
+
+  - R9: Clause 13 — supply chain disruptions/component shortages/freight delays excluded from force majeure for Supplie
+r (asymmetric, and these are the main FM events for a battery supplier); distributor can terminate immediately after 30
+ days FM without compensation → P0 per rubric "把供应链短缺/运费上涨排除在不可抗力外；对方可因不可抗力立即解约". P0.
+
+  - Clause 14: governing law Netherlands (neutral-ish, not supplier's Germany) + arbitration Amsterdam NAI in Dutch. Ru
+bric P0: "适用对方所在地法 + 对方所在地法院 + 对方语言，且无仲裁" — there IS arbitration, and Amsterdam is distributor's location, Dutch langua
+ge. Not P0 because arbitration exists. P1: "仲裁地中立但语言不利；适用法为对方所在地法" → Netherlands law is distributor's home law, Dutch l
+anguage, Dutch arbitrators. That's P1. Actually rubric P1 says 仲裁地中立但语言不利 or 适用法为对方所在地法 → P1. Here both: law = distribu
+tor's home law, seat = distributor's home city, language = Dutch. Since no P0 condition (arbitration exists), P1. Hmm, 
+but could argue P0 under "丧失什么权利"? No. P1.
+
+  - Clause 15: compliance — supplier warrants compliance with all sanctions/export control/battery regs "in all jurisdi
+ctions worldwide", and distributor may terminate immediately if supplier fails to provide any compliance certificate re
+quested. Rubric P0: "要求我方对全球制裁/出口管制作无限保证；认证责任全部压给我方" → P0. Yes, "worldwide" unlimited warranty → P0. And unilateral imm
+ediate termination for failure to provide "any" certificate. P0.
+
+  - Clause 3: 90 days advance PO, supplier 10 business days to confirm/reject — that's ok. But no minimum purchase comm
+itment (clause 2) combined with exclusive territory: supplier grants exclusivity with no minimum purchase — for supplie
+r, exclusivity without performance commitment is a P1 risk (locks territory for 5 years with no volume obligation). Rub
+ric doesn't have an exact anchor; 终止与退出 or 交付与验收. This is a real commercial risk: exclusive distributorship, 5-year ter
+m, no minimum purchase, and distributor can walk anytime with 30 days notice. That's squarely P0-ish? Quantify: locks 3
+-country territory for 5 years with zero commitment while supplier can't terminate. I'd rate P1... but combined with R5
+ termination asymmetry, exclusivity-no-minimum is a distinct risk. I'd call it P1 (preferred) — or P0 because loss of m
+arket access for 5 years. Hmm. The "loss" is opportunity cost, hard to quantify but is "丧失什么权利" = loss of ability to ap
+point other distributors in NL/BE/LU for 5 years. I'll rate P1 to avoid inflation? Actually the rule "丧失货物/知识产权控制权... 终
+止权" for P0. Exclusivity without minimum is a classic P1/P0. Given 5 years and no exit for supplier, I'd say P1 is defen
+sible; but many would say P0. Since rubric's termination P0 anchor is "我方无终止权" which is already R5, exclusivity-without
+-minimum is a separate lever. I'll put P1 with negotiability must-change? Negotiability must-change usually for P0. Let
+ me set P1 preferred... Hmm, but for a supplier, an exclusive 5-year grant with zero minimum and no exit is close to fa
+tal. I'll make it P0? Let me count P0s: 9 already. Adding 10th. 
+
+  I think it's better to be rigorous: quantify. Exclusivity for 5 years in 3 countries with no minimum purchase and no 
+supplier termination right → supplier cannot replace a non-performing distributor for 5 years = loss of entire territor
+y revenue potential for up to 5 years, exceeds 10% of contract value easily. That satisfies P0 definition "单笔潜在损失可能超过合同
+额 10%". I'll make it P0.
+
+  Hmm, but is it double counting with R5 (termination asymmetry)? R5 is about termination rights; R10 is about exclusiv
+ity without minimum purchase commitment. They're related but distinct levers (one is exit, one is performance obligatio
+n). I'll keep both but make R5 focus on convenience termination + no exit + no post-termination stock arrangement, and 
+R10 on exclusive grant without minimum purchase. Acceptable.
+
+  - Clause 7 warranty: 12 months from shipment, repair at factory only, no field service/replacement/response time → P0
+ per rubric ("质保 ≤ 12 个月且起算于发货；仅限工厂维修、无响应时限"). P0.
+  - Clause 12 data: no data cross-border clause — contract doesn't involve customer data really (products). Not needed;
+ put in missing_clauses? The rubric mentions "无数据跨境条款却涉及客户数据" — here distributor handles end-customer data, supplier ma
+y get telemetry from battery systems. I can note as missing clause but not a separate risk to avoid inflation. I'll inc
+lude in missing_clauses: "数据跨境与客户信息处理条款".
+  - Clause 16: assignment — distributor may assign to any affiliate without consent; supplier may not assign without di
+stributor consent → asymmetry, P2? It restricts supplier's corporate restructuring (e.g., group reorg). P1? It's a real
+ constraint but limited. P2 acceptable? Actually prohibiting supplier assignment without consent could block intra-grou
+p restructuring — P2, minor asymmetry. I'll make it P2.
+  - Clause 9 also: no equivalent penalty on distributor (one-way) — folded into R2.
+  - Clause 3: 90-day advance PO — locks supplier capacity forecast? Without binding forecast and 120-day payment, worki
+ng capital. Fold into payment risk? The 90-day lead PO plus payment 120 days = cash conversion ~210 days. I'll mention 
+in R3's quantification but not separate.
+  - Missing clauses: 责任上限 (none), 质保响应时限, 最低采购量, 汇率调整机制, 库存回购/终止后安排, 逾期利息, 数据跨境, 制裁终止权 for supplier, 交付/验收标准, 不可抗力通知程序.
+ Also no audit/anti-bribery? Compliance covers.
+
+  Also clause 15: supplier warrants battery regulations worldwide — P0 already.
+
+  Also clause 6 mismatch: DAP Rotterdam means supplier bears freight & import clearance? DAP = delivered at place, buye
+r clears import. Risk at factory is inconsistent — P0 as noted.
+
+  Also title passes on full payment while risk passes at loading: title retention conflicts with DAP — minor, folded in
+ R4.
+
+  Now count: P0: R1 (liability unlimited), R2 (penalty 30%/wk uncapped), R3 (120d payment no interest/no suspension), R
+4 (risk at factory vs DAP), R5 (termination asymmetry), R6 (IP vest + unlimited indemnity), R7 (5-yr fixed USD price), 
+R8 (confidentiality one-way unlimited), R9 (FM exclusions + immediate termination), R10 (exclusivity w/o minimum), R11 
+(warranty 12m from shipment, factory repair only), R12 (compliance worldwide warranty + immediate termination). That's 
+12 P0s out of 12 categories... which is plausible for a "high-risk mock" but maybe over. Let me reconsider a few:
+
+  - R7 price/FX: P0 per rubric anchor (fixed + 5 years + no adjustment). Keep P0.
+  - R8 confidentiality: P0 per rubric. Keep.
+  - R10 exclusivity: not directly anchored; the closest rubric anchor is 终止与退出 P0 "终止后无库存回购安排" etc. I'll keep P0 becaus
+e 5-year exclusive with no minimum + no supplier exit. Actually to reduce inflation, maybe rate P1? Hmm.
+
+  Let me think about what's most defensible. The user wants an audit at supplier stance. The contract is deliberately o
+ne-sided. P0 count being high is fine as long as each is justified. But quality red line: "不对同一风险重复计数，不拆条凑数量". R5 and R
+10 are distinct. R6 (IP) vs R8 (confidentiality) distinct. R9 distinct. R12 distinct.
+
+  However, consider merging R7 (price/FX) into... no, distinct.
+
+  I'll aim for 10 P0 + 2 P1 + 1 P2. Let me decide which to downgrade:
+  - R8 confidentiality → P0 per rubric (无限期且单向). Keep P0. Hmm, "保密与数据 P0: 保密义务无限期且单向" — clearly satisfied. Keep.
+  - R10 exclusivity without minimum → I'll keep P0? Or P1? Rubric P1 for 终止与退出: "通知期 < 30 天；回购价格公式缺失". Exclusivity isn'
+t there. Under 违约责任? No. Since no anchor, I must judge by general scale: "单笔潜在损失可能超过合同额 10%". Locking 3 countries for 5
+ years with no volume commitment → loss of market = yes > 10%. P0. Keep.
+
+  So 12 P0? That's every category except... let me map: 付款 R3 P0, 价格 R7 P0, 交付 R4 P0, 质保 R11 P0, 违约 R2 P0, 责任上限 R1 P0, 
+终止 R5 P0 (and R10 P0), IP R6 P0, 保密 R8 P0, 不可抗力 R9 P0, 争议 R13 P1, 合规 R12 P0, 其他 R14 P2 (assignment).
+
+  That's 12 P0 + 1 P1 + 1 P2 = 14 risks. Overall P0. That's honest for this mock. But is it credible? For a deliberatel
+y one-sided mock contract, yes.
+
+  Hmm, but P1 for governing law: Netherlands law + Amsterdam arbitration in Dutch. For a German supplier vs Dutch distr
+ibutor, Netherlands law is not egregious (both civil law, EU). P1 is right.
+
+  Also maybe 验收 7 days deemed acceptance → separate P1? I planned to fold? Let me add as P1 to be thorough: Clause 3 de
+emed acceptance 7 days after delivery with no defined acceptance standard/criteria → for battery storage systems, laten
+t defects (capacity degradation) can't be discovered in 7 days; deemed acceptance may waive defect claims. But "materia
+l defect" objection preserves claims? Deemed acceptance means accepted; warranty still covers conformance for 12 months
+ from shipment. So the 7-day acceptance is not hugely harmful. I'd rate P2 or skip. I'll fold a mention into R4? No — R
+4 is risk transfer. I'll include as P2 maybe. Hmm, "视为验收期限 ≤ 7 天且无异议机制" — there is a mechanism, so not P0. Could be P2.
+ Let me include as P2 to cover 交付与验收 category fully? R4 already covers that category. Skip to avoid inflation; instead 
+mention acceptance in missing_clauses? No, it exists.
+
+  Let me instead include "验收标准缺失" in missing_clauses ("验收标准/技术规格附件"), since Annex I referenced but not attached, and sp
+ecifications not defined for warranty. That's a real gap: "conform to the specifications" but no specifications annex i
+n contract. Add missing_clauses: "产品规格/技术附件（Annex I 未随合同提供）", "验收标准".
+
+  Count clause_count = 16.
+
+  Now quantification for each P0: loss amount / time / rights lost.
+
+  R1: unlimited liability incl. indirect + consequential, no cap, no exclusion of IP/personal injury carve-outs (actual
+ly no cap at all). Worst case: a battery fire claim → consequential damages (property, business interruption) could be 
+multiples of contract value, unbounded; no ceiling. Rights lost: no predictability of exposure; insurers may refuse cov
+er.
+
+  R2: 30% per week uncapped, per order. 4 weeks delay = 120% of order value > contract value; 10 weeks = 300%. One-way 
+only against supplier.
+
+  R3: 120 days from invoice, no interest, no suspension. Plus 90-day advance PO. Cash locked ~4 months per shipment, pl
+us if distributor defaults, supplier's only remedy is sue — no leverage. Quantify: financing cost of receivables at 120
+ days vs 30 days = ~90 days extra funding on full annual volume; at 6% cost ≈1.5% of revenue, plus default exposure of 
+up to 4 months of shipments.
+
+  R4: risk passes at factory loading while delivery DAP Rotterdam → supplier bears nothing? No wait — risk passing earl
+y is favorable to supplier normally! Careful. Risk passing at loading at supplier's factory means distributor bears tra
+nsit risk — favorable to SELLER. But it conflicts with DAP Rotterdam (where seller bears risk until delivery at named p
+lace). Conflict creates ambiguity: under DAP, supplier bears risk to Rotterdam; clause says risk passes at loading. Dis
+tributor will argue DAP prevails (Incoterms incorporated) and claim for transit damage for which supplier has no insura
+nce/control. Also title retention until payment. The risk for supplier: ambiguity → disputes, and DAP means supplier mu
+st contract carriage and bears risk/insurance until Rotterdam; if a truckload is damaged in transit, distributor invoke
+s DAP and refuses payment while clause 6 says risk passed. So P0? Rubric P0: "风险转移早于交付（如工厂装货即转移）" — mechanically this i
+s listed as P0. But from a supplier standpoint early risk transfer is good... The rubric is written generally. The real
+ supplier risk here is the internal conflict (DAP vs factory risk transfer) creating an uninsured gap and payment dispu
+tes where supplier must still deliver to Rotterdam. Hmm, is that >10% loss? A total loss of one shipment in transit (ba
+ttery systems, high value, hazardous goods) — distributor refuses payment, supplier uninsured because its policy assume
+s risk passed at loading. That could be 100% of a shipment. That justifies P0. Good — frame it as: DAP obliges supplier
+ to deliver to Rotterdam but risk clause says risk passes at loading → in a total loss of a truck (fire, theft, acciden
+t), distributor can refuse acceptance/payment citing DAP, and supplier's cargo insurance may deny the claim because the
+ contract allocates risk to buyer at loading. So P0 for the conflict, not for early transfer per se. Good nuance.
+
+  Also note: under DAP, supplier bears export clearance and main carriage, and import clearance is buyer's — fine.
+
+  R5: Distributor may terminate anytime 30 days notice, no compensation; supplier may only terminate for insolvency or 
+90-day uncured material breach. So supplier locked in for 5 years, and distributor can exit at will after building... A
+ctually the bigger issue: supplier can't exit even if distributor underperforms (no minimum purchase anyway), and distr
+ibutor's convenience termination leaves supplier with unamortized tooling/inventory/capacity commitments and no take-or
+-pay. Also 30-day notice vs 90-day PO lead time: distributor can terminate while orders are in production, no cancellat
+ion charge. Quantify: 90-day production lead + 30-day exit = supplier may hold up to 3 months of finished/semi-finished
+ goods with no buyer and no cancellation compensation.
+
+  R6: All IP created under agreement vests exclusively in Distributor — including software/firmware customization, docu
+mentation → supplier loses ownership of its own BMS firmware customizations, and cannot reuse them with other distribut
+ors; plus unlimited indemnity for "any third-party claim relating to the Products" — that's broader than IP: any produc
+t liability claim, unlimited, and no cap (links to R1). Worst case: loss of core IP + indemnity for any product claim.
+
+  Careful about double counting with R1: R1 is the general liability cap; R6's indemnity is a separate IP/indemnity obl
+igation. I'll keep R6 focused on IP ownership + scope of indemnity (unlimited, includes non-IP claims), and mention int
+erplay.
+
+  R7: Fixed USD price for 5 years, cost base EUR. If EUR/USD moves 10%, margin on EUR costs eroded; if distributor volu
+me grows, exposure grows. Quantify: 10% FX move on 5-year revenue = 10% of revenue = far above 10% of annual contract v
+alue; no adjustment mechanism, no renegotiation right.
+
+  R8: Distributor's CI protected indefinitely; supplier's CI (technical specs, pricing, firmware) may be disclosed to a
+ffiliates/resellers/service providers without restriction → loss of trade secret protection; no injunctive remedy, and 
+supplier cannot protect its technical data. Also no data cross-border clause although battery systems generate customer
+/telemetry data.
+
+  R9: FM excludes supply chain disruptions, component shortages, freight delays for supplier — for a battery supplier i
+n 2026, cell shortage is the most likely delay cause, so supplier bears delay penalties (30%/week uncapped, R2) for eve
+nts outside control. Plus distributor may terminate immediately after 30 days FM without compensation. Combined: a 30-d
+ay cell shortage → immediate termination + accrued penalties. Quantify: 4 weeks shortage = 120% order value penalty + l
+oss of contract.
+
+  R10: Exclusive in NL/BE/LU for 5 years, no minimum purchase, no performance targets, no termination for underperforma
+nce → territory blocked; supplier loss = entire territory revenue for up to 5 years.
+
+  R11: Warranty 12 months from shipment (not delivery/commissioning) — transit + storage time consumed; sole remedy rep
+air at supplier's factory (customer bears de-installation, freight, downtime), no response time, no replacement, no fie
+ld service → for residential/commercial BESS, repair-at-factory is commercially impossible for installed systems; distr
+ibutor will claim statutory conformity rights instead (EU: 2-year legal guarantee under consumer sales; Dutch law). Als
+o battery capacity degradation may trigger claims. Quantify: full replacement cost per unit + labor, and 12 months from
+ shipment may expire before commissioning.
+
+  Hmm — P0 per rubric anchor. Keep.
+
+  R12: Warrants compliance with all sanctions/export control/battery regulations "in all jurisdictions worldwide" — imp
+ossible to warrant globally; any regulator's finding anywhere = breach; distributor may terminate immediately if suppli
+er fails to provide "any compliance certificate requested" (no scope, no time limit) → distributor has a unilateral ter
+mination trigger on demand.
+
+  R13 (P1) governing law/arbitration: Netherlands law, Amsterdam seat, Dutch language. Supplier is German. Costs/time: 
+Dutch-language arbitration requires translation of all submissions; seat in counterparty's home. Mitigation: neutral se
+at (e.g., Rotterdam? no) — propose German law or neutral (e.g., Swiss law, Zurich or Amsterdam but English language). N
+egotiability: preferred. Or counter: Netherlands law acceptable (EU, similar), but language English and seat The Hague/
+Amsterdam — actually proposing English language + neutral seat is reasonable.
+
+  R14 (P2) assignment asymmetry: supplier may not assign without distributor consent (blocks intra-group reorg/subsidia
+ry transfer); distributor may assign to any affiliate freely. P2 acceptable/preferred.
+
+  Also clause 2 "No minimum purchase commitment" + exclusive — R10.
+
+  Also clause 16 entire agreement — fine.
+
+  Also "Distributor shall use commercially reasonable efforts" — best-efforts only, weak for supplier → fold into R10? 
+Could mention in R10 evidence? R10 evidence: "Supplier appoints Distributor as its exclusive distributor in the Territo
+ry... No minimum purchase commitment is agreed by either party." Good.
+
+  Missing clauses list:
+  - 责任上限（无总额上限、无间接损失排除）
+  - 逾期付款利息与暂停交付权
+  - 最低采购量/销售目标
+  - 汇率调整/调价机制
+  - 质保响应时限与现场服务
+  - 终止后库存回购/在手订单处理
+  - 验收标准与技术规格附件（Annex I 未提供）
+  - 供应商侧终止权（业绩不达标）
+  - 数据跨境与终端客户数据处理
+  - 不可抗力通知程序与证明
+  - 供应商合规免责/双方合规对等（anti-bribery 双向）
+  - 保险要求
+
+  Keep missing_clauses focused: maybe 8 items.
+
+  Now Redline section: max 6 items, P0 first. I'll write 6: Clause 8, 9, 5, 6, 10+2 (exclusivity/termination), 11, 7, 1
+5... pick 6 most important: 8, 9, 5, 11, 10, 7? Also 4 (price), 6 (delivery). Limit 6 per skill. I'll choose: 8, 9, 5, 
+6, 10, 11. Hmm but 2 (exclusivity/minimum) and 4 (FX) and 15 (compliance) and 7 (warranty) are also P0. Skill says max 
+6 Redlines. I'll pick 6 with highest impact: 8, 9, 5, 10, 11, 7? And 4? 
+
+  Let me choose: 8 (unlimited liability), 9 (30%/wk penalty), 5 (120-day payment), 3/6 (risk transfer), 10 (termination
+), 11 (IP). Then note remaining P0 wording in the table's 修改建议 column (which also contains sentences). Good — the table
+ has suggestions for all, redline details for 6.
+
+  Actually redline should probably prioritize by financial exposure: 9 (30% per week uncapped — worst), 8, 5, 11, 10, 6
+. I'll order: R2 (clause 9), R1 (clause 8), R3 (clause 5), R6 (clause 11), R5 (clause 10), R4 (clause 6). And table sug
+gestions cover 7, 15, 4, 12, 13, 8, 2, 16.
+
+  Hmm, redline section "按 P0 → P1 排序，最多 6 条" — so I'll do 6 P0 redlines and note that remaining clauses' replacement wo
+rding is in the table.
+
+  Let me write good English redline sentences.
+
+  Clause 9 replacement:
+  "9.1 If Supplier fails to deliver by the agreed delivery date for reasons not attributable to Distributor or to a For
+ce Majeure Event, Supplier shall pay liquidated damages of 0.5% of the value of the delayed Products per completed week
+ of delay, up to a maximum of 5% of the value of the delayed Products.
+  9.2 If delay exceeds eight (8) weeks, Distributor may cancel the affected order and receive a refund of any prepaymen
+t, without prejudice to the liquidated damages accrued.
+  9.3 The parties agree that such liquidated damages are a genuine pre-estimate of loss and the sole remedy for delay. 
+An equivalent late-payment charge of 0.05% per day, capped at 5% of the overdue amount, shall apply to Distributor's ov
+erdue invoices."
+  Negotiation bottom line: cap at 10% of order value, LD rate ≤1%/week; must have cap; reciprocity at least on late pay
+ment interest.
+  Concessions: rate 0.5–1%/week; cap 5–10%; grace period 2 weeks.
+
+  Clause 8 replacement:
+  "8.1 Neither party shall be liable for indirect or consequential loss, loss of profit, loss of revenue, loss of busin
+ess or loss of goodwill.
+  8.2 Each party's total aggregate liability under this Agreement, whether in contract, tort (including negligence) or 
+otherwise, shall not exceed 100% of the amounts paid or payable by Distributor under the Agreement in the twelve (12) m
+onths preceding the event giving rise to the claim.
+  8.3 The limitations in 8.1 and 8.2 shall not apply to: (a) death or personal injury caused by negligence; (b) wilful 
+misconduct or fraud; (c) breach of confidentiality; (d) infringement of the other party's intellectual property; and (e
+) the indemnity in Clause 11.
+  8.4 Product liability for defects in the Products shall be subject to the warranty in Clause 7 and shall not extend t
+o loss caused by Distributor's modification, misuse, or failure to install or maintain the Products in accordance with 
+Supplier's instructions."
+  Bottom line: a cap must exist — max 100–200% of 12-month payments; indirect loss must be excluded for both; carve-out
+s limited to death/PI, fraud, IP, confidentiality.
+  Concession: cap at 200%, or per-claim cap with annual aggregate.
+
+  Clause 5 replacement:
+  "5.1 Distributor shall pay each invoice within sixty (60) days of the invoice date. 
+  5.2 Overdue amounts shall bear interest at 1% per month (or the statutory rate, whichever is higher) from the due dat
+e until paid.
+  5.3 If any amount remains unpaid for more than fifteen (15) days after the due date, Supplier may, on written notice,
+ suspend further deliveries and cancel outstanding orders without liability, and all outstanding invoices shall become 
+immediately due.
+  5.4 Payment shall be made in USD by irrevocable wire transfer to Supplier's nominated account; bank charges shall be 
+borne by Distributor. Payment is not conditional on resale, installation or acceptance by end customers."
+  Bottom line: 60 days max; interest + suspension right mandatory; no acceptance-conditioned payment.
+  Concession: 90 days at the absolute maximum with interest and suspension rights.
+
+  Clause 11 replacement:
+  "11.1 Supplier retains all intellectual property rights in the Products, their firmware, software, designs, documenta
+tion and any customization, improvement or derivative work created by or for Supplier, whether before or after the Effe
+ctive Date. Distributor receives a non-exclusive, non-transferable licence to use Supplier's documentation and trademar
+ks solely to market and sell the Products in the Territory during the term.
+  11.2 Any deliverable jointly developed shall be owned by Supplier, with Distributor receiving a licence for use in th
+e Territory.
+  11.3 Supplier shall defend and indemnify Distributor against third-party claims that the Products as supplied by Supp
+lier infringe a patent, copyright or trade secret, provided that Distributor (a) notifies Supplier promptly in writing,
+ (b) gives Supplier sole control of the defence, and (c) provides reasonable assistance. This indemnity is subject to C
+lause 8 and shall not apply to claims arising from Distributor's modifications, combinations, or use outside the specif
+ications."
+  Bottom line: supplier must retain ownership of core IP and firmware; distributor gets a limited licence; indemnity mu
+st be limited to IP infringement + defence control + capped.
+
+  Clause 10 replacement:
+  "10.1 The Agreement shall commence on the Effective Date and continue for three (3) years, renewing automatically for
+ successive one-year periods unless either party gives ninety (90) days' written notice of non-renewal.
+  10.2 Either party may terminate for convenience on twelve (12) months' written notice, provided that orders accepted 
+before the notice date shall be fulfilled and paid.
+  10.3 Either party may terminate immediately by written notice if the other party (a) commits a material breach and fa
+ils to cure it within thirty (30) days of notice, (b) becomes insolvent, or (c) fails to achieve the annual minimum pur
+chase volume set out in Annex II for two consecutive contract years.
+  10.4 On termination, Distributor shall pay for all Products delivered and all work in progress ordered by Distributor
+, and Supplier shall repurchase saleable Products held in Distributor's stock at the price paid, less any outstanding a
+mounts owed."
+  Bottom line: symmetric termination; supplier must have performance-based termination; 30-day cure is enough for mater
+ial breach; 12-month notice for convenience or no convenience right at all.
+
+  Clause 6 replacement:
+  "6.1 Delivery shall be DAP Rotterdam (Incoterms 2020). Supplier shall bear all costs and risk of loss or damage to th
+e Products until they are placed at Distributor's disposal at the named place.
+  6.2 Risk of loss or damage shall pass to Distributor upon delivery in accordance with Clause 6.1. Title shall pass up
+on full payment.
+  6.3 Distributor shall inspect the Products within fourteen (14) days of delivery and notify Supplier in writing of an
+y visible damage or shortage; failing such notice the Products shall be deemed accepted as to visible defects only, wit
+hout prejudice to warranty claims for latent defects."
+  Bottom line: risk must pass at delivery point, consistent with DAP; or change Incoterm to FCA factory with risk at lo
+ading. Must eliminate the conflict; no title-retention conflict.
+
+  Wait — from supplier's perspective, which is better: DAP with risk at delivery, or FCA with risk at loading? Supplier
+ stance: FCA (supplier's factory) with risk passing at loading is best for supplier. So redline could offer alternative
+: change delivery term to FCA Supplier's factory, risk at loading. That's cleaner for supplier. So replacement: "6.1 De
+livery shall be FCA Supplier's factory (Incoterms 2020). Risk passes to Distributor upon loading..." — but distributor 
+wants DAP. Better: give the consistent option aligned to supplier: FCA, and as fallback DAP with risk at Rotterdam. I'l
+l write the redline as: keep risk at loading but change Incoterm to FCA (removing supplier's carriage obligation), OR k
+eep DAP and move risk to Rotterdam. Bottom line: the two must match; if supplier keeps DAP, risk must move to Rotterdam
+ and insurance must match.
+
+  I'll draft accordingly.
+
+  Table suggestions should be one-liners with clause sentences.
+
+  Now format: A 结论摘要, B 风险明细表, C Redline, D JSON. Also should I show parse output? Orchestrator says parse JSON is inte
+rnal only, category_index not printed. So no separate parse section. Maybe a brief line noting parsing completed (16 cl
+auses, 14 facts, X missing). That's fine as a one-liner in A or before A.
+
+  JSON structure per contract-risk-review: contract, overall_level, recommendation, clause_count, checked_categories, s
+ummary, risks[], missing_clauses[].
+
+  Now write risks ordered by level.
+
+  Let me assign IDs by severity order:
+  P0:
+  R1 clause 8 责任上限 — unlimited liability incl indirect.
+  R2 clause 9 违约责任 — 30%/week uncapped unilateral.
+  R3 clause 5 付款与账期 — 120 days, no interest, no suspension.
+  R4 clause 10 终止与退出 — distributor convenience 30d, supplier only insolvency/90d.
+  R5 clause 11 知识产权 — all IP vests in distributor + unlimited indemnity.
+  R6 clause 7 质保 — 12m from shipment, factory repair only, no response time.
+  R7 clause 2 终止与退出/独家 — exclusive 5y no minimum purchase.
+  R8 clause 4 价格与汇率 — fixed USD 5 years, no adjustment.
+  R9 clause 13 不可抗力 — supply chain excluded + immediate termination.
+  R10 clause 15 合规 — worldwide warranty + immediate termination on any certificate.
+  R11 clause 12 保密与数据 — one-way unlimited.
+  R12 clause 6 交付与验收 — DAP vs risk at factory conflict.
+
+  Hmm, R12 is P0 and important; order maybe by severity. I'll order: 8, 9, 11, 5, 10, 6, 2, 7, 4, 13, 15, 12? Better ke
+ep a logical order but severity-primary. All P0 so any order. I'll order by financial exposure:
+
+  R1 = clause 8 unlimited liability
+  R2 = clause 9 30%/week penalty
+  R3 = clause 12? no.
+
+  Let me order: 
+  R1 clause 9 (违约金)
+  R2 clause 8 (责任上限)
+  R3 clause 11 (IP)
+  R4 clause 5 (付款)
+  R5 clause 10 (终止)
+  R6 clause 2 (独家无最低量)
+  R7 clause 6 (风险转移冲突)
+  R8 clause 7 (质保)
+  R9 clause 4 (价格汇率)
+  R10 clause 13 (不可抗力)
+  R11 clause 15 (合规)
+  R12 clause 12 (保密)
+  R13 clause 14 P1 (争议解决)
+  R14 clause 16 P2 (转让)
+
+  Hmm, skill example uses R1=clause 8. Doesn't matter. But careful: redline section says P0→P1, max 6. I'll do 6 redlin
+es.
+
+  Actually maybe numbering should follow clause order for readability? The table has 编号 column; ordering by level then 
+clause number is fine. Let me order by level desc, then clause number asc:
+
+  P0 by clause: 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15 → R1..R12
+  P1: 14 → R13
+  P2: 16 → R14
+
+  That's clean. But then R1 = clause 2 exclusivity, and the "most important" isn't first. Hmm. Severity ordering matter
+s more for a review doc. I'll order within P0 by exposure:
+
+  R1 | 8 | 责任上限
+  R2 | 9 | 违约责任
+  R3 | 5 | 付款与账期
+  R4 | 11 | 知识产权
+  R5 | 10 | 终止与退出
+  R6 | 6 | 交付与验收
+  R7 | 2 | 终止与退出 (独家/最低量) — category maybe "终止与退出" twice; better category for R7: "终止与退出" or "违约责任"? The 12 categories:
+ 独家无最低量 best fits 终止与退出 (exit/performance) or 交付与验收. I'll use "终止与退出".
+  R8 | 7 | 质保
+  R9 | 4 | 价格与汇率
+  R10 | 13 | 不可抗力
+  R11 | 15 | 合规
+  R12 | 12 | 保密与数据
+  R13 | 14 | P1 争议解决与适用法律
+  R14 | 16 | P2 终止与退出? Assignment fits 终止与退出 loosely, or "其他". Categories must be from the 12. Assignment → 终止与退出. Hmm 
+three in that category. Alternatively P2 assignment → "知识产权"? No. Use 终止与退出.
+
+  Anyway 12 categories checked.
+
+  Now evidence quotes must be verbatim, ≤160 chars.
+
+  Let me now write.
+
+  Missing clauses list:
+  - "责任总额上限与间接损失排除"
+  - "逾期付款利息与暂停交付权"
+  - "最低采购量与年度销售目标"
+  - "汇率调整/价格复核机制"
+  - "质保响应时限与现场服务"
+  - "终止后库存回购与在手订单处理"
+  - "验收标准与产品技术规格（Annex I 未随合同提供）"
+  - "数据跨境与终端客户数据处理"
+  - "不可抗力通知程序"
+  - "双向合规义务（反商业贿赂）"
+
+  Note some of these are "缺失" while corresponding clause exists but one-sided (e.g., liability cap missing). Fine.
+
+  Self-check: each P0 answers loss/time/rights. I'll include a short "量化" element inside 风险点 text where possible.
+
+  Let me write the table. Columns: 编号 | 条款 | 风险等级 | 类别 | 风险点 | 原文依据（摘录） | 修改建议 | 可让步度.
+
+  Keep cells reasonably compact but with numbers.
+
+  Now build JSON with same risk content (issue/evidence/suggestion/negotiability). Suggestion field should be a clause 
+sentence, shorter.
+
+  recommendation: "revise" (改后签). Given 12 P0s, maybe "reject"? The stance: supplier should not sign as-is; skill allow
+s sign/revise/reject. With 12 P0 all one-sided, "revise" is right if counterparty is real; but honestly this contract a
+s drafted is unsignable — "revise" with the note that if the other side won't move on 8/9/5, reject. I'll use "revise" 
+and say in summary "改后签；若第 8、9、5 条不接受上限与利息，则不签".
+
+  overall_level: P0.
+
+  Let me draft each risk carefully with verbatim evidence.
+
+  R1 clause 8: evidence "Supplier shall be liable for all losses, damages, costs and expenses of any kind incurred by D
+istributor ... including indirect and consequential losses, without any limitation of amount." Quote exactly: "Supplier
+ shall be liable for all losses, damages, costs and expenses of any kind incurred by Distributor arising out of or in c
+onnection with this Agreement, including indirect and consequential losses, without any limitation of amount." That's 2
+05 chars; truncate with … to ≤160. Let me count: "Supplier shall be liable for all losses, damages, costs and expenses 
+of any kind incurred by Distributor arising out of or in connection with this Agreement, including indirect and consequ
+ential losses, without any…". I'll use: "liable for all losses, damages, costs and expenses of any kind … including ind
+irect and consequential losses, without any limitation of amount." Good, verbatim fragments joined by ….
+
+  R2 clause 9: "Supplier shall pay Distributor a penalty of thirty percent (30%) of the total order value per week of d
+elay, without any cap." verbatim.
+
+  R3 clause 5: "Distributor shall pay each invoice within one hundred twenty (120) days after the invoice date. No inte
+rest shall accrue on late payments. Supplier shall not suspend deliveries for late payment."
+
+  R4 clause 11: "All intellectual property rights in any deliverables, customization, software or documentation created
+ under this Agreement shall vest exclusively in Distributor. Supplier shall indemnify Distributor against any third-par
+ty claim relating to the Products."
+
+  R5 clause 10: "Distributor may terminate this Agreement at any time for convenience upon thirty (30) days' notice. Su
+pplier may terminate only if Distributor becomes insolvent or commits a material breach that remains uncured for ninety
+ (90) days."
+
+  R6 clause 6: "Supplier shall deliver the Products DAP Rotterdam. Risk of loss shall pass to Distributor upon loading 
+at the Supplier's factory."
+
+  R7 clause 2: "Supplier appoints Distributor as its exclusive distributor in the Territory. … No minimum purchase comm
+itment is agreed by either party." Combined with clause 10 5-year term. Evidence quote should be from clauses 2 and 10;
+ put both? Evidence column can quote clause 2 primarily: "Supplier appoints Distributor as its exclusive distributor in
+ the Territory. Distributor shall use commercially reasonable efforts to promote the Products. No minimum purchase comm
+itment is agreed by either party." (227 chars, truncate).
+
+  R8 clause 7: "Supplier warrants that the Products conform to the specifications for twelve (12) months from the date 
+of shipment from the factory. Supplier's sole obligation is to repair defective Products at its factory. No field servi
+ce, replacement or response time commitment is provided."
+
+  R9 clause 4: "Prices are stated in USD and are fixed for the entire term. … No price adjustment mechanism applies."
+
+  R10 clause 13: "Supply chain disruptions, component shortages and freight delays shall not constitute force majeure f
+or Supplier. If force majeure continues for thirty (30) days, Distributor may terminate immediately without compensatio
+n."
+
+  R11 clause 15: "Supplier warrants that it complies with all applicable sanctions, export control and battery regulati
+ons in all jurisdictions worldwide. Distributor may terminate immediately if Supplier fails to provide any compliance c
+ertificate requested by Distributor."
+
+  R12 clause 12: "Distributor's confidential information shall be kept confidential by Supplier for an unlimited period
+. Supplier's confidential information may be disclosed by Distributor to its affiliates, resellers and service provider
+s without restriction."
+
+  R13 clause 14: "This Agreement shall be governed by the laws of the Netherlands. Any dispute shall be finally settled
+ by arbitration in Amsterdam … in the Dutch language."
+
+  R14 clause 16: "Distributor may assign this Agreement to any affiliate without Supplier's consent. Supplier may not a
+ssign this Agreement without Distributor's prior written consent."
+
+  Now quantification for each P0 — must answer 损失多少/多久失控/丧失什么权利:
+
+  R1: 无上限、含间接损失 → 单起电池热失控索赔可含财产损失+营业中断，金额可达合同额数倍；保险通常不覆盖间接损失，敞口不可估。
+  R2: 30%/周、无上限、每单计算 → 迟延 4 周即 120% 订单额，10 周 300%；且供应商无对应反制。
+  R3: 120 天账期 + 不计息 + 无停供权 → 每批货款占用 4 个月，叠加 90 天提前下单，现金周期约 7 个月；分销商违约时供应商无任何杠杆，只能诉讼追偿（荷兰诉讼 12–24 个月）。
+  R4: 全部 IP 归对方 + 对「任何与产品有关的第三方索赔」赔偿 → 丧失固件/BMS 定制成果的复用权（无法售予其他分销商），并承担无上限产品责任索赔。
+  R5: 对方 30 天无责可退，我方仅破产/90 天未补救可退 → 5 年期内我方无退出权；对方在 90 天生产周期内退出，我方承担在制/成品库存（最长 3 个月产量）无买方。
+  R6: DAP 交货但风险在工厂装货时转移 → 运输中整车全损（储能柜高值+危险品）时，对方可依 DAP 拒收拒付，而供应商货运险因风险已转移可能拒赔，单车损失 100% 订单额。
+  R7: 独家 3 国 + 5 年 + 零最低采购 + 无业绩终止权 → 区域市场被锁定最长 5 年，损失按区域年销售额×5 计，远超合同额 10%。
+  R8: 12 个月、自发货起算、仅工厂维修、无响应时限 → 运输+仓储+安装占掉保修期；已装机产品的返厂维修在商业上不可行，实际按欧盟/荷兰法定 conformity 主张，单台更换成本+拆装人工由供应商承担。
+  R9: 美元固定价 5 年、无调价 → EUR 成本/USD 收入错配，汇率 10% 波动即吞噬约 10% 营收（毛利率通常 15–25%）。
+  R10: 供应链中断/缺芯/运费不计不可抗力 + 30 天即可解约 → 电芯短缺 4 周即触发 30%×4=120% 订单额违约金（R2），并给对方即时解约权。
+  R11: 全球无限合规保证 + 任何证书未提供即可即时解约 → 任一法域监管认定（如 EU Battery Regulation、出口管制清单变更）即构成违约，对方取得单方随时解约触发器。
+  R12: 对方信息无限期保密、我方信息可无限制披露 → 技术资料/定价/固件失去商业秘密保护，且无数据跨境条款。
+
+  Good.
+
+  Now the "修改建议" column: short clause sentence.
+
+  Also need "可让步度": must-change / preferred / acceptable.
+
+  Now write the final answer in Chinese, with English clause wording in redlines.
+
+  Structure:
+  - 前置一行: 解析已完成（16 条条款、14 项要素，其中 X 项未约定），以下为审查结果。Keep minimal.
+  - A. 结论摘要
+  - B. 风险明细表
+  - C. 修订措辞
+  - D. JSON (only one json block)
+
+  Also mention 缺失条款 separately — orchestrator self-check item 6: 缺失条款单独列出. I'll put a short list after B (before C) or 
+in A. Skill output format: 结论 → 明细表 → Redline → JSON. I'll add "缺失条款" as a small subsection after the table, before Red
+line. And missing_clauses in JSON. That's consistent.
+
+  Redline: 6 items with 目标条款 / 替换句 / 谈判底线 / 可让步项.
+
+  Let me now write the JSON carefully — risks array with 14 entries matching table. contract "WT-DIST-2026-014", clause
+_count 16, checked_categories 12.
+
+  Length: this will be long but appropriate.
+
+  For the table, keep 风险点 concise but with numbers.
+
+  One more check: is 质保 P0 for supplier? Warranty only 12 months from shipment and factory-only repair — this is *suppl
+ier-favorable* in scope but the risk is that it's unenforceable/triggers statutory claims and disputes; also "sole obli
+gation is to repair at its factory" may be invalid under Dutch/EU law for consumer products (distributor sells to consu
+mers → statutory 2-year conformity, and the distributor will pass claims back). Actually from supplier stance, a too-na
+rrow warranty isn't a "loss" risk per se — it creates dispute risk and unenforceable terms. The rubric mechanically say
+s P0 for "质保 ≤ 12 个月且起算于发货；仅限工厂维修、无响应时限". But as supplier counsel, would I flag this as a risk? The genuine supplier ri
+sk: warranty starts at shipment (good for supplier — earlier expiry but also risks: product may sit in distributor stoc
+k, then claims arise after expiry → disputes). Repair-at-factory only: distributor may reject and demand replacement ci
+ting Dutch law; and no response-time commitment means operational chaos/disputes.
+
+  Hmm. There's a tension: rubric P0 anchor vs supplier interest. The honest audit note: clause 7 is one-sided in suppli
+er's favor and will likely be challenged; but the *risk* to supplier is (a) enforceability, (b) latent defect claims ou
+tside warranty, (c) undefined "specifications" (Annex I missing) so "conform to the specifications" is unmeasurable. I'
+ll present R8 as P0 but framed correctly: 质保条款对我方看似有利，但三项缺陷反过来造成风险 — 无规格附件使保证范围不可测；工厂维修对已装机 BESS 不可执行，对方将转而主张法定 conform
+ity；无响应时限导致索赔处理无流程、易升级为争议/解约（第 10 条 90 天未补救）。That's a legit supplier-side risk. Level P0 per rubric. Hmm, is it P0? Rub
+ric anchor says P0. Keep, and honestly note the dual nature. Good — that shows judgment rather than mechanical flagging
+.
+
+  Similarly clause 6: from supplier view early risk transfer is good, but conflict is bad. Already framed.
+
+  And clause 12: supplier's info disclosure is bad. P0.
+
+  Also consider: should I flag that "No minimum purchase commitment" is P0? Yes as R7.
+
+  Also clause 3's 90-day advance PO + 10 business day acceptance is fine for supplier.
+
+  Let me also double check clause 4: withholding taxes borne by Distributor — favorable. Currency USD — for German supp
+lier, cost in EUR, revenue USD: FX risk. Yes R9.
+
+  Now the "checked_categories": 12.
+
+  Let me write it all out.
+
+  For the missing clauses list in text, keep 8 items.
+
+  Write now. Keep table cells not too long to stay readable in terminal.
+
+  One more: 可让步度 for P0s — must-change generally; for some (e.g., R8 warranty) "preferred"? P0→must-change typically. I
+'ll use must-change for most, and for R9 price/FX maybe "must-change" (5-year fixed is fatal), R11 compliance must-chan
+ge, R12 保密 must-change (reciprocal), R7 exclusivity must-change (minimum purchase), R6 risk transfer must-change, R8 wa
+rranty: preferred? Since the clause is favorable but unenforceable — the fix is clarity; I'd say must-change for the "s
+pecifications" ambiguity and response-time process. I'll use must-change for 12-month-from-shipment + factory-only? Hmm
+. Actually supplier would want to keep 12 months but change start to delivery/commissioning and allow repair-or-replace
+ at supplier's option with a defined response process. That's a must-change for enforceability. I'll say must-change.
+
+  R13 P1: preferred. R14 P2: preferred (or acceptable). Use "preferred" for R14? negotiability allowed values: must-cha
+nge/preferred/acceptable. Assignment asymmetry blocks intra-group reorg → preferred. Hmm, P2 usually acceptable. I'll u
+se "preferred" for R13 and "acceptable" for R14? R14 says supplier may not assign without consent — that limits supplie
+r's group restructuring; I'd call it "preferred" to fix. But P2 = can accept. I'll mark "acceptable" for R14 with note 
+顺手修正. Hmm, but the issue is against supplier... "acceptable" means 可接受. Fine, mark acceptable.
+
+  Let me write final now.
+
+  Redline items (6): clause 9, 8, 5, 11, 10, 6. I'll note in C header that other P0 wording is in table column 修改建议.
+
+  Actually Redline should cover the most critical; table already gives sentences for all 14. Good.
+
+  Write the answer.
+
+• 合同解析已完成（16 条条款、14 项商务要素，其中 3 项「未约定」、1 项无规格附件），以下为按供应商立场的审查结果。
+
+  ## A. 结论摘要
+
+  - **总体风险等级：P0**（12 条 P0、1 条 P1、1 条 P2；16 条条款中唯一对我方有利的只有第 4 条的税费归属）
+  - **必须先改的条款数：12 条**（第 2、4、5、6、7、8、9、10、11、12、13、15 条）
+  - **一句话建议：改后签**——第 8、9、5 条必须拿到责任上限、违约金上限与逾期利息＋停供权；若对方在这三条上完全不让，则不签。
+
+  我方是德国制造商（EUR 成本、EUR 产能），对方是荷兰分销商；本合同把价格、账期、违约金、IP、终止权、不可抗力、合规全部单边压在供应商一侧，且第 6 条内部自相矛盾。第 1、3、14、16 条结构本身可用。
+
+  ## B. 风险明细表
+
+  | 编号 | 条款 | 等级 | 类别 | 风险点 | 原文依据（摘录） | 修改建议 | 可让步度 |
+  |---|---|---|---|---|---|---|---|
+  | R1 | 8 | P0 | 责任上限 | 无任何总额上限，且明文包含间接与后果性损失；单起电池热失控索赔可含财产损失、营业中断与第三方人身损害，金额可达合同额数倍，保险通常不覆盖间接损失，敞口不可估 | "liable for all losses, damages, costs and expenses of any kind … including indirect and consequential losses, without any limitation of amount" | 加入 8.1 双向排除间接损失、8.2 总额上限＝索赔前 12 个月已付/应付金额的 100%，仅保留人身伤害、欺诈、保密、IP 侵权为例外 | must-change |
+  | R2 | 9 | P0 | 违约责任 | 迟延违约金 30%/周、无上限、按订单全额计算；迟延 4 周即 120% 订单额、10 周 300%，且对方迟延付款无任何对应责任 | "Supplier shall pay Distributor a penalty of thirty percent (30%) of the total order value per week of delay, without any cap." | 改为 0.5%/周、上限 5%（或 10%）订单额，迟延超 8 周对方仅可取消该订单；同时加入对方逾期付款 0.05%/日、上限 5% | must-change |
+  | R3 | 5 | P0 | 付款与账期 | 发票日 120 天账期＋逾期不计息＋明文禁止停供；叠加第 3 条 90 天提前下单，单批现金占用约 7 个月，对方违约时我方无任何履约杠杆，只能诉讼（荷兰一审通常 12–24 个月） | "pay each invoice within one hundred twenty (120) days … No interest shall accrue on late payments. Supplier shall not suspend deliveries" | 账期改为 60 天；逾期按 1%/月计息；逾期 15 天可书面停供并取消在手订单、全部发票加速到期 | must-change（底线 90 天＋利息＋停供权，三者不可全失） |
+  | R4 | 11 | P0 | 知识产权 | 本合同项下全部交付物、定制、软件、文档 IP 独占归对方，我方将丧失 BMS 固件与定制方案的复用权（无法售予其他分销商）；同时"任何与产品有关的第三方索赔"均由我方赔偿，范围远超 IP 侵权且无上限 | "All intellectual property rights … created under this Agreement shall vest exclusively in Distributor. Supplier shall indemnify Distributor against any third-party claim relating to the Products." | 明确我方保留产品、固件、软件、文档及衍生改进的全部 IP，对方仅获区域内非独占使用许可；赔偿限于 IP 侵权、以对方及时通知＋我方控制抗辩＋配合为条件，并受第 8 条上限约束 | must-change |
+  | R5 | 10 | P0 | 终止与退出 | 对方可随时 30 天无责退出，我方仅在对方破产或重大违约 90 天未补救时才能退出；5 年期内我方零退出权，而对方在 90 天生产周期内退出将使我方背负最长 3 个月的在制/成品库存且无买方、无取消费 | "Distributor may terminate … at any time for convenience upon thirty (30) days' notice. Supplier may terminate only if Distributor becomes insolvent or commits a material breach that remains uncured for ninety (90) days." | 双向对等：任一方可 12 个月通知便利终止；重大违约补救期改为 30 天；对方连续两年未达最低采购量我方可终止；终止时对方须支付在制订单并按原价回购可售库存 | must-change |
+  | R6 | 6 | P0 | 交付与验收 | 交货条件为 DAP Rotterdam，但风险在工厂装货时即转移——两条互相冲突。运输途中整车全损（储能柜高值＋危险品）时，对方可依 DAP 拒收拒付，而我方货运险因合同已约定风险转移可能拒赔，单车损失即 100% 订单额；所有权保留条款亦与 DAP 冲突 | "Supplier shall deliver the Products DAP Rotterdam. Risk of loss shall pass to Distributor upon loading at the Supplier's factory." | 二选一并对齐：改为 FCA 我方工厂＋装货时转移风险；或保留 DAP 则风险在鹿特丹交付时转移，并明确由对方投保运输险、所有权在付清全款前保留 | must-change |
+  | R7 | 2 | P0 | 终止与退出 | 独家授权荷兰、比利时、卢森堡三国＋5 年期限，却"双方均无最低采购承诺"，对方仅负 commercially reasonable efforts；区域市场被锁定最长 5 年且无业绩终止权，按区域年销售额×5 年计的潜在市场损失远超合同额 10% | "Supplier appoints Distributor as its exclusive distributor in the Territory. … No minimum purchase commitment is agreed by either party." | 附件 II 约定首年最低采购额与年度增长（如首年 X 台、次年 +15%），未达标则独家权自动转为非独家或我方可终止；独家以最低采购为前提 | must-change |
+  | R8 | 7 | P0 | 质保 | 表面看我方有利，实际三项缺陷反噬：①质保自发货起算，运输＋仓储＋安装吃掉保修期，已装机产品索赔落在期外即起争议；②仅限"工厂维修"，对已安装的户用/工商业储能柜商业上不可执行，对方将转而依荷兰/欧盟法定 conformity 主张，成本反而不可控；③无响应时限，索赔处理无流程，易升级为第 10 条"90 天未补救"的重大违约 | "twelve (12) months from the date of shipment from the factory. Supplier's sole obligation is to repair defective Products at its factory. No field service, replacement or response time commitment is provided." | 质保 12 个月自交付或调试之日起算（以较晚者为准）；我方选择维修或更换；10 个工作日响应、30 日内完成；明确排除误用、擅自改装、非我方安装导致的缺陷；补 Annex I 技术规格作为唯一验收与保证基准 | must-change |
+  | R9 | 4 | P0 | 价格与汇率 | 美元计价且 5 年固定、无任何调价或汇率机制，我方 EUR 成本对 USD 收入错配；汇率 10% 波动即吞掉约 10% 营收（储能行业毛利率通常 15–25%），合同期 5 年远超 2 年阈值 | "Prices are stated in USD and are fixed for the entire term. … No price adjustment mechanism applies." | 改为 EUR 计价（或 USD 计价＋每季度按 ECB 参考汇率复核）；设原材料（电芯）价格指数联动条款，单季波动超 5% 可书面调价；年度调价上限 3–5% | must-change（币种或调价机制至少拿到一项） |
+  | R10 | 13 | P0 | 不可抗力 | 明文把供应链中断、零部件短缺、运费迟延排除在我方不可抗力之外——而这正是电芯供应最可能的中断原因，我方须为此承担第 9 条 30%/周无上限违约金；且不可抗力持续仅 30 天对方即可立即解约且无补偿 | "Supply chain disruptions, component shortages and freight delays shall not constitute force majeure for Supplier. If force majeure continues for thirty (30) days, Distributor may terminate immediately without compensation." | 删除对我方的除外列举，改为双向定义（含上游供应商破产、出口管制、能源限供）；通知义务 10 日内；持续 90 天任一方可终止，已交付货款与在制成本照付 | must-change |
+  | R11 | 15 | P0 | 合规 | 要求我方对"全球所有法域"的制裁、出口管制、电池法规作无限保证——任何一国监管认定（如 EU Battery Regulation 修订、出口管制清单变更）即构成违约；且对方可因我方未提供"其要求的任何合规证书"即时解约，无范围、无时限，等于给出单方随时解约的触发器 | "complies with all applicable sanctions, export control and battery regulations in all jurisdictions worldwide. Distributor may terminate immediately if Supplier fails to provide any compliance certificate" | 保证限于产品原产地及交付地适用法律，且以签约日现行法规为限；证书请求须合理、书面、提前 30 日、限于合规必需范围；违反合规义务给予 30 日补救期，而非即时解约 | must-change |
+  | R12 | 12 | P0 | 保密与数据 | 单向且期限失衡：对方信息我方无限期保密，我方技术资料、定价、固件却可由对方无限制披露给关联方、经销商与服务商——商业秘密保护实际失效；合同涉及储能系统运行/客户数据，却无任何数据跨境与处理条款 | "kept confidential by Supplier for an unlimited period. Supplier's confidential information may be disclosed by Distributor … without restriction." | 双向对等：互负保密义务，期限为合同期内＋终止后 5 年（商业秘密无限期）；披露限于有必要知悉的员工/关联方/分包商并负同等义务；新增数据条款：终端客户与运行数据归属、GDPR 角色、跨境传输机制 | must-change |
+  | R13 | 14 | P1 | 争议解决与适用法律 | 适用荷兰法（对方所在地）＋阿姆斯特丹仲裁＋荷兰语审理；我方为德国主体，全部申请、证据、庭审需荷兰语翻译，程序成本与时间显著上升，且实体法为对方母国法 | "governed by the laws of the Netherlands … arbitration in Amsterdam … in the Dutch language" | 仲裁语言改为英语；仲裁地改中立地（如瑞士苏黎世或德国法兰克福）；适用法可保留荷兰法或改德国法；NIU 规则可保留 | preferred（语言英语＋仲裁地中立是最低诉求） |
+  | R14 | 16 | P2 | 终止与退出 | 转让权单向：对方可无同意转让给任何关联方，我方未经对方书面同意不得转让，可能阻断集团内部重组或业务/资产划转 | "Distributor may assign this Agreement to any affiliate without Supplier's consent. Supplier may not assign this Agreement without Distributor's prior written consent." | 双向对等：任一方可转让给关联方，但须书面通知且受让方承继全部义务；非关联方转让需对方同意，不得无理拒绝 | acceptable（顺手修正） |
+
+  ### 缺失条款（合同未约定，单独列出）
+
+  1. **责任总额上限与间接损失排除**——第 8 条反向约定为无限责任，无任何上限机制。
+  2. **逾期付款利息与暂停交付权**——第 5 条明文排除，属制度性缺失。
+  3. **最低采购量/年度销售目标**——第 2 条明文"无最低采购承诺"，独家授权因此无对价。
+  4. **汇率调整与价格复核机制**——第 4 条明文"无调价机制"。
+  5. **质保响应时限与现场服务标准**——第 7 条明文"不提供"。
+  6. **终止后库存回购与在手订单处理**——第 10 条完全未涉及。
+  7. **验收标准与产品技术规格附件**——第 7 条以"specifications"为基准，但 Annex I 未随合同提供，第 1 条仅作指向。
+  8. **数据跨境与终端客户数据处理**——涉及储能系统运行数据，全文无约定。
+  9. **不可抗力通知程序与证明要求**——第 13 条只写后果，未写程序。
+  10. **双向合规义务（反商业贿赂、双方合规承诺）**——第 15 条仅约束我方。
+
+  ## C. 修订措辞（Redline，P0 优先，6 条）
+
+  > 其余 P0/P1 的可替换句已写入上表"修改建议"列；以下 6 条为谈判桌上必须先落的锚点。
+
+  **C1｜第 9 条 迟延违约金（对应 R2）**
+
+  > 9.1 If Supplier fails to deliver by the agreed delivery date for reasons not attributable to Distributor or to a Force Majeure Event, Supplier shall pay liquidated damages of 0.5% of the value of the delayed Products per completed week of delay, up to an aggregate maximum of 5% of the value of the delayed Products.
+  > 9.2 If the delay exceeds eight (8) weeks, Distributor may cancel the affected order and recover any prepayment, without prejudice to liquidated damages already accrued.
+  > 9.3 Such liquidated damages are the sole remedy for delay. A late-payment charge of 0.05% per day, capped at 5% of the overdue amount, shall apply to Distributor's overdue invoices.
+
+  *谈判底线*：必须有上限，且上限 ≤ 10% 订单额；费率 ≤ 1%/周；对方逾期付款须有对应利息。
+  *可让步项*：费率 0.5%→1%/周；上限 5%→10%；给 2 周宽限期；取消权门槛 8 周→10 周。
+
+  **C2｜第 8 条 责任限制（对应 R1）**
+
+  > 8.1 Neither party shall be liable for indirect or consequential loss, loss of profit, loss of revenue, loss of business or loss of goodwill.
+  > 8.2 Each party's total aggregate liability under this Agreement, whether in contract, tort (including negligence) or otherwise, shall not exceed 100% of the amounts paid or payable by Distributor under this Agreement in the twelve (12) months preceding the event giving rise to the claim.
+  > 8.3 The limitations in Clauses 8.1 and 8.2 shall not apply to death or personal injury caused by negligence, fraud or wilful misconduct, breach of Clause 12, infringement of the other party's intellectual property, or the indemnity in Clause 11.
+  > 8.4 Supplier shall not be liable for defects or loss caused by Distributor's modification, misuse, improper storage or installation, or failure to maintain the Products in accordance with Supplier's instructions.
+
+  *谈判底线*：必须存在总额上限——上限 100%–200% 的 12 个月付款额之间的任何数字都可接受；间接损失必须双向排除。
+  *可让步项*：上限 100%→200%；按单次索赔上限＋年度累计上限双层结构；例外项删减至人身伤害、欺诈、IP 三项。
+
+  **C3｜第 5 条 付款（对应 R3）**
+
+  > 5.1 Distributor shall pay each invoice within sixty (60) days of the invoice date, by irrevocable wire transfer in USD.
+  > 5.2 Overdue amounts shall bear interest at 1% per month from the due date until paid.
+  > 5.3 If any amount remains unpaid fifteen (15) days after the due date, Supplier may by written notice suspend further deliveries and cancel outstanding orders without liability, and all outstanding invoices shall become immediately due.
+  > 5.4 Payment shall not be conditional on resale, installation or acceptance by end customers.
+
+  *谈判底线*：账期 ≤ 90 天；利息与停供权两项不可同时被删（这是唯一的履约杠杆）。
+  *可让步项*：60 天→90 天；利息 1%/月→0.5%/月；停供前给 15 天书面催告期。
+
+  **C4｜第 11 条 知识产权（对应 R4）**
+
+  > 11.1 Supplier retains all intellectual property rights in the Products, their firmware, software, designs, documentation and any customization, improvement or derivative work created by or for Supplier, whether before or after the Effective Date. Distributor receives a non-exclusive, non-transferable licence to use Supplier's documentation and trademarks solely to market and sell the Products in the Territory during the term.
+  > 11.2 Supplier shall defend and indemnify Distributor against third-party claims that the Products as supplied by Supplier infringe a patent, copyright or trade secret, provided that Distributor (a) notifies Supplier promptly in writing, (b) grants Supplier sole control of the defence and settlement, and (c) provides reasonable assistance at Supplier's expense. This indemnity is subject to Clause 8 and excludes claims arising from Distributor's modifications, combinations or use outside the specifications.
+
+  *谈判底线*：产品/固件/软件 IP 必须留在我方；赔偿范围必须收窄到 IP 侵权并受第 8 条上限约束。
+  *可让步项*：就地为对方开发的非核心交付物可共有或授予排他使用许可；抗辩控制权可改为共同抗辩。
+
+  **C5｜第 10 条 期限与终止（对应 R5、R7）**
+
+  > 10.1 The Agreement commences on the Effective Date and continues for three (3) years, renewing automatically for successive one-year periods unless either party gives ninety (90) days' notice of non-renewal.
+  > 10.2 Either party may terminate for convenience on twelve (12) months' written notice; orders accepted before the notice date shall be fulfilled and paid.
+  > 10.3 Either party may terminate immediately if the other party (a) commits a material breach and fails to cure it within thirty (30) days of written notice, (b) becomes insolvent, or (c) in Supplier's case, fails to meet the annual minimum purchase volume in Annex II for two consecutive contract years.
+  > 10.4 On termination, Distributor shall pay for all Products delivered and all work in progress ordered by Distributor, and Supplier shall repurchase saleable Products in Distributor's stock at the price paid, net of amounts owed to Supplier.
+
+  *谈判底线*：终止权必须双向对等；我方必须有业绩型终止权；终止时在制订单与库存必须有归属规则。
+  *可让步项*：便利终止通知期 12 个月→6 个月；回购比例 100%→90%（扣除账龄超 12 个月库存）。
+
+  **C6｜第 6 条 交付与风险（对应 R6）**
+
+  > 6.1 Delivery shall be FCA Supplier's factory (Incoterms 2020). Supplier shall load the Products onto the carrier nominated by Distributor, and risk of loss or damage shall pass to Distributor upon loading.
+  > 6.2 Alternatively, if the parties agree DAP Rotterdam, risk shall pass only when the Products are placed at Distributor's disposal at the named place, and Distributor shall insure the Products in transit from the point of loading.
+  > 6.3 Title to the Products shall pass to Distributor upon full payment, and Distributor shall keep the Products insured until title passes.
+
+  *谈判底线*：交货条件与风险转移点必须一致——不允许"工厂转移风险＋DAP 交货"并存；所有权保留不得与风险条款冲突。
+  *可让步项*：若对方坚持 DAP，可接受风险在鹿特丹转移，但须由对方投保运输险并指定承运人。
+
+  ## D. 机器可读结果
+
+  ```json
+  {
+    "contract": "WT-DIST-2026-014",
+    "overall_level": "P0",
+    "recommendation": "revise",
+    "clause_count": 16,
+    "checked_categories": 12,
+    "summary": "供应商立场下 12 条 P0：无责任上限且含间接损失、30%/周无上限单方违约金、120 天账期且不计息禁停供、IP 全归对方、对方可随时无责终止而我方仅破产可退、DAP 与工厂风险转移冲突、独家 5 年零最低采购、质保起算与救济不可执行、美元固定价 5 年无调价、供应链中断排除不可抗力、全球无限合规保证、单向无限期保密。须改后签，第 8/9/5 条不让则不签。",
+    "risks": [
+      {
+        "id": "R1",
+        "clause": "8",
+        "level": "P0",
+        "category": "责任上限",
+        "issue": "无任何总额上限，且明文包含间接与后果性损失，单起电池事故索赔可数倍于合同额且保险通常不覆盖",
+        "evidence": "Supplier shall be liable for all losses, damages, costs and expenses of any kind incurred by Distributor arising out of or in connection with this Agreement, including indirect and consequential losses, without any limitation of amount.",
+        "suggestion": "Each party's aggregate liability shall not exceed 100% of the amounts paid or payable in the 12 months preceding the claim, and neither party shall be liable for indirect or consequential loss, save for death/personal injury, fraud, breach of confidentiality and IP infringement.",
+        "negotiability": "must-change"
+      },
+      {
+        "id": "R2",
+        "clause": "9",
+        "level": "P0",
+        "category": "违约责任",
+        "issue": "迟延违约金 30%/周、无上限、按订单全额计算，4 周即 120% 订单额，且对方迟延付款无对应责任",
+        "evidence": "Supplier shall pay Distributor a penalty of thirty percent (30%) of the total order value per week of delay, without any cap.",
+        "suggestion": "Liquidated damages of 0.5% of the value of the delayed Products per completed week, capped at 5% of that value, as the sole remedy for delay; late-payment interest of 0.05% per day capped at 5% shall apply to Distributor.",
+        "negotiability": "must-change"
+      },
+      {
+        "id": "R3",
+        "clause": "5",
+        "level": "P0",
+        "category": "付款与账期",
+        "issue": "发票日 120 天账期、逾期不计息、明文禁止停供，叠加 90 天提前下单，单批现金占用约 7 个月且对方违约时我方无履约杠杆",
+        "evidence": "Distributor shall pay each invoice within one hundred twenty (120) days after the invoice date. No interest shall accrue on late payments. Supplier shall not suspend deliveries for late payment.",
+        "suggestion": "Payment within 60 days of invoice date; overdue amounts bear interest at 1% per month; if unpaid 15 days after due date Supplier may suspend deliveries and cancel outstanding orders without liability and all invoices become immediately due.",
+        "negotiability": "must-change"
+      },
+      {
+        "id": "R4",
+        "clause": "11",
+        "level": "P0",
+        "category": "知识产权",
+        "issue": "合同项下全部交付物、定制、软件与文档 IP 独占归对方，我方丧失固件与定制方案复用权；并对任何与产品有关的第三方索赔承担无上限赔偿",
+        "evidence": "All intellectual property rights in any deliverables, customization, software or documentation created under this Agreement shall vest exclusively in Distributor. Supplier shall indemnify Distributor against any third-party claim relating to the Products.",
+        "suggestion": "Supplier retains all IP in the Products, firmware, software, designs and documentation; Distributor receives a non-exclusive, non-transferable licence for the Territory; Supplier indemnifies only for third-party IP infringement claims, subject to defence control and the Clause 8 cap.",
+        "negotiability": "must-change"
+      },
+      {
+        "id": "R5",
+        "clause": "10",
+        "level": "P0",
+        "category": "终止与退出",
+        "issue": "对方可随时 30 天无责退出，我方仅在其破产或重大违约 90 天未补救时可退；5 年期内我方零退出权，对方退出后我方承担最长 3 个月在制与成品库存",
+        "evidence": "Distributor may terminate this Agreement at any time for convenience upon thirty (30) days' notice. Supplier may terminate only if Distributor becomes insolvent or commits a material breach that remains uncured for ninety (90) days.",
+        "suggestion": "Symmetric termination: either party may terminate for convenience on 12 months' notice; material breach cure period 30 days; Supplier may terminate if minimum purchase volumes in Annex II are missed for two consecutive years; on termination Distributor pays for work in progress and Supplier repurchases saleable stock.",
+        "negotiability": "must-change"
+      },
+      {
+        "id": "R6",
+        "clause": "6",
+        "level": "P0",
+        "category": "交付与验收",
+        "issue": "交货条件 DAP Rotterdam 与工厂装货即转移风险互相冲突，运输途中整车全损时对方可依 DAP 拒付而我方货运险可能拒赔，单车损失即 100% 订单额",
+        "evidence": "Supplier shall deliver the Products DAP Rotterdam. Risk of loss shall pass to Distributor upon loading at the Supplier's factory.",
+        "suggestion": "Align delivery term and risk transfer: either FCA Supplier's factory with risk passing on loading, or DAP Rotterdam with risk passing on delivery at the named place and Distributor insuring transit from loading; title passes on full payment.",
+        "negotiability": "must-change"
+      },
+      {
+        "id": "R7",
+        "clause": "2",
+        "level": "P0",
+        "category": "终止与退出",
+        "issue": "独家授权荷兰、比利时、卢森堡 5 年，却无最低采购承诺、无销售目标、无业绩终止权，区域市场被锁定且潜在损失按年销售额 5 倍计",
+        "evidence": "Supplier appoints Distributor as its exclusive distributor in the Territory. Distributor shall use commercially reasonable efforts to promote the Products. No minimum purchase commitment is agreed by either party.",
+        "suggestion": "Exclusivity is conditional on the annual minimum purchase volumes and growth targets set out in Annex II; failure in any contract year entitles Supplier to convert exclusivity to non-exclusive or terminate.",
+        "negotiability": "must-change"
+      },
+      {
+        "id": "R8",
+        "clause": "7",
+        "level": "P0",
+        "category": "质保",
+        "issue": "质保 12 个月自发货起算，运输仓储安装吃掉保修期；仅限工厂维修对已装机储能系统不可执行，对方将转向法定 conformity 主张；无响应时限，索赔易升级为第 10 条重大违约",
+        "evidence": "Supplier warrants that the Products conform to the specifications for twelve (12) months from the date of shipment from the factory. Supplier's sole obligation is to repair defective Products at its factory. No field service, replacement or response time commitment is provided.",
+        "suggestion": "Warranty of 12 months from delivery or commissioning, whichever is later; Supplier may repair or replace at its option; response within 10 business days and remedy within 30 days; defects caused by misuse, modification or improper installation excluded; Annex I specifications are the sole conformity benchmark.",
+        "negotiability": "must-change"
+      },
+      {
+        "id": "R9",
+        "clause": "4",
+        "level": "P0",
+        "category": "价格与汇率",
+        "issue": "美元计价且 5 年固定、无调价或汇率机制，我方 EUR 成本对 USD 收入错配，汇率 10% 波动即吞噬约 10% 营收",
+        "evidence": "Prices are stated in USD and are fixed for the entire term. All customs duties, VAT, withholding taxes and other levies in the Territory shall be borne by Distributor. No price adjustment mechanism applies.",
+        "suggestion": "Prices in EUR, or USD prices reviewed quarterly against the ECB reference rate; a cell-price index adjustment where a single-quarter movement exceeds 5%; annual price review capped at 3-5%.",
+        "negotiability": "must-change"
+      },
+      {
+        "id": "R10",
+        "clause": "13",
+        "level": "P0",
+        "category": "不可抗力",
+        "issue": "供应链中断、零部件短缺、运费迟延被排除在我方不可抗力之外，而电芯供应中断正是最可能的迟延原因，我方须承担 30%/周违约金；且持续 30 天对方即可立即无补偿解约",
+        "evidence": "Supply chain disruptions, component shortages and freight delays shall not constitute force majeure for Supplier. If force majeure continues for thirty (30) days, Distributor may terminate immediately without compensation.",
+        "suggestion": "Mutual force majeure definition including upstream supplier failure, export controls and energy restrictions; written notice within 10 days; either party may terminate only if force majeure continues for 90 days, with payment for delivered Products and work in progress.",
+        "negotiability": "must-change"
+      },
+      {
+        "id": "R11",
+        "clause": "15",
+        "level": "P0",
+        "category": "合规",
+        "issue": "对全球所有法域的制裁、出口管制与电池法规作无限保证，任一法域监管认定即构成违约；且对方可因未提供其要求的任何合规证书而即时解约，等于单方随时解约触发器",
+        "evidence": "Supplier warrants that it complies with all applicable sanctions, export control and battery regulations in all jurisdictions worldwide. Distributor may terminate immediately if Supplier fails to provide any compliance certificate requested by Distributor.",
+        "suggestion": "Warranty limited to laws applicable at the place of manufacture and delivery as in force on the Effective Date; certificate requests must be reasonable, in writing and limited to compliance needs; compliance breaches carry a 30-day cure period instead of immediate termination.",
+        "negotiability": "must-change"
+      },
+      {
+        "id": "R12",
+        "clause": "12",
+        "level": "P0",
+        "category": "保密与数据",
+        "issue": "单向且期限失衡：对方信息我方无限期保密，我方技术资料、定价与固件可被无限制披露给关联方、经销商与服务商；合同涉及储能系统运行与客户数据却无数据条款",
+        "evidence": "Distributor's confidential information shall be kept confidential by Supplier for an unlimited period. Supplier's confidential information may be disclosed by Distributor to its affiliates, resellers and service providers without restriction.",
+        "suggestion": "Mutual confidentiality for the term plus 5 years (trade secrets indefinitely); disclosure limited to need-to-know personnel, affiliates and subcontractors bound by equivalent obligations; add a data clause covering ownership of operational and customer data, GDPR roles and cross-border transfer.",
+        "negotiability": "must-change"
+      },
+      {
+        "id": "R13",
+        "clause": "14",
+        "level": "P1",
+        "category": "争议解决与适用法律",
+        "issue": "适用荷兰法、阿姆斯特丹仲裁、荷兰语审理，我方为德国主体，全部程序需荷兰语翻译，成本与时间上升且实体法为对方母国法",
+        "evidence": "This Agreement shall be governed by the laws of the Netherlands. Any dispute shall be finally settled by arbitration in Amsterdam under the rules of the Netherlands Arbitration Institute, in the Dutch language.",
+        "suggestion": "Arbitration in English, seated in Zurich or Frankfurt; Netherlands law may be retained; NAI or Swiss Rules acceptable.",
+        "negotiability": "preferred"
+      },
+      {
+        "id": "R14",
+        "clause": "16",
+        "level": "P2",
+        "category": "终止与退出",
+        "issue": "转让权单向：对方可无同意转让给关联方，我方未经同意不得转让，可能阻断集团重组或业务划转",
+        "evidence": "Distributor may assign this Agreement to any affiliate without Supplier's consent. Supplier may not assign this Agreement without Distributor's prior written consent.",
+        "suggestion": "Either party may assign to an affiliate on written notice, with the assignee assuming all obligations; assignment to a non-affiliate requires the other party's consent, not unreasonably withheld.",
+        "negotiability": "acceptable"
+      }
+    ],
+    "missing_clauses": [
+      "责任总额上限与间接损失排除（第 8 条反向约定为无限责任）",
+      "逾期付款利息与暂停交付权（第 5 条明文排除）",
+      "独家授权项下的最低采购量与年度销售目标（第 2 条明文无承诺）",
+      "汇率调整与价格复核机制（第 4 条明文无机制）",
+      "质保响应时限与现场服务标准（第 7 条明文不提供）",
+      "终止后库存回购与在手订单处理（第 10 条未涉及）",
+      "验收标准与产品技术规格（引用的 Annex I 未随合同提供）",
+      "数据跨境与终端客户数据处理（全文无约定）",
+      "不可抗力通知程序与证明要求（第 13 条仅约定后果）",
+      "双向合规义务与反商业贿赂条款（第 15 条仅约束供应商）"
+    ]
+  }
+  ```
+
+  ---
+
+  审查立场：供应商（Voltai Energy Storage GmbH）；合同原文为英文，依据均逐字摘录未作翻译替换。本输出为商务风险初筛，不构成法律意见；P0 条款签署前应由执业律师复核。
+
+To resume this session: kimi -r session_b30e253f-dd23-4e0a-83d2-67dd2b54809d

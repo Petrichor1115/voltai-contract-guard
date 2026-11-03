@@ -1,0 +1,173 @@
+{
+  "markdown": "# 合同风险审查结果\n\n> 审查立场：供应商 **Voltai Energy Storage GmbH**；合同：`contract-a-high-risk-en.md`（WT-DIST-2026-014）；输出语言：中文；原文依据保留英文原文。\n\n## A. 结论摘要\n\n1. **总体风险等级：P0（高风险）** —— 16 条条款中 11 条触发 P0 硬条件，均为「签约前必须修改」。\n2. **必须先改的条款数：11**（§4、§5、§6、§7、§8、§9、§10、§11、§12、§13、§15）。\n3. **一句话建议：改后签** —— 11 项 P0 全部修订并写入 Redline 前不得签署；P1 项同步争取。\n\n## B. 风险明细表\n\n| 编号 | 条款 | 等级 | 类别 | 风险点 | 原文依据（摘录） | 修改建议 | 可让步度 |\n|---|---|---|---|---|---|---|---|\n| R1 | 8 | P0 | 责任上限 | 供应商承担无限责任，含间接/后果损失，无总额上限 | \"Supplier shall be liable for all losses, damages, costs and expenses of any kind…including indirect and consequential losses, without any limitation of amount.\" | \"Supplier's total aggregate liability shall not exceed 100% of the amounts paid or payable in the 12 months preceding the claim, and Supplier shall not be liable for indirect or consequential losses.\" | must-change |\n| R2 | 9 | P0 | 违约责任 | 供应商单方违约金每周 30% 且无上限，经销商无对等违约金 | \"Supplier shall pay Distributor a penalty of thirty percent (30%) of the total order value per week of delay, without any cap. No equivalent penalty applies to Distributor…\" | \"Delay penalty shall be 0.5% of the affected order value per week, capped at 5%, as the exclusive remedy for late delivery; reciprocal penalties shall apply to Distributor.\" | must-change |\n| R3 | 10 | P0 | 终止与退出 | 经销商可 30 天无理由终止，供应商仅在破产或 90 天未补救重大违约时方可终止 | \"Distributor may terminate this Agreement at any time for convenience upon thirty (30) days' notice. Supplier may terminate only if Distributor becomes insolvent or commits a material breach that remains uncured for ninety (90) days.\" | \"Termination for convenience shall be mutual with 180 days' notice and not before month 24; Supplier may terminate on 30 days' notice for material breach or non-payment.\" | must-change |\n| R4 | 11 | P0 | 知识产权 | 交付成果/定制/软件/文档全部 IP 归经销商，且供应商承担无上限第三方侵权赔偿 | \"All intellectual property rights in any deliverables, customization, software or documentation created under this Agreement shall vest exclusively in Distributor.\" | \"Supplier shall retain all background IP and IP it creates; Distributor receives only a non-exclusive, non-transferable, Territory-limited licence; indemnity capped and subject to notice and control of defence.\" | must-change |\n| R5 | 12 | P0 | 保密与数据 | 供应商对经销商信息承担无限期保密，而经销商可无限制披露供应商信息（单向） | \"Distributor's confidential information shall be kept confidential by Supplier for an unlimited period. Supplier's confidential information may be disclosed by Distributor…without restriction.\" | \"Confidentiality shall be mutual, limited to term plus five (5) years, with standard exceptions (public domain, legal disclosure, independent development).\" | must-change |\n| R6 | 13 | P0 | 不可抗力 | 供应链中断/零部件短缺/货运延迟被排除在供应商不可抗力外；持续 30 天经销商可立即解约 | \"Supply chain disruptions, component shortages and freight delays shall not constitute force majeure for Supplier. If force majeure continues for thirty (30) days, Distributor may terminate immediately without compensation.\" | \"Force majeure shall include supply chain disruption, component shortage and freight delay; termination only if FM continues for 120 days.\" | must-change |\n| R7 | 15 | P0 | 合规 | 供应商须保证全球所有法域合规，且未应要求提供任何合规证书即构成经销商立即解约事由 | \"Supplier warrants that it complies with all applicable sanctions, export control and battery regulations in all jurisdictions worldwide. Distributor may terminate immediately if Supplier fails to provide any compliance certificate requested…\" | \"Compliance warranty limited to laws applicable to the Products in the Territory; certificate requests reasonable, specific, in writing, with a 30-day cure period.\" | must-change |\n| R8 | 5 | P0 | 付款与账期 | 账期 120 天、逾期不计息且供应商无暂停交付权 | \"Distributor shall pay each invoice within one hundred twenty (120) days after the invoice date. No interest shall accrue on late payments. Supplier shall not suspend deliveries for late payment.\" | \"Payment due within 30 days of invoice; late payment bears interest at 1.5% per month; Supplier may suspend deliveries on 14 days' written notice.\" | must-change |\n| R9 | 7 | P0 | 质保 | 质保自发货起仅 12 个月、仅限工厂维修，无现场服务/换新/响应时限 | \"Supplier warrants that the Products conform to the specifications for twelve (12) months from the date of shipment from the factory. Supplier's sole obligation is to repair defective Products at its factory.\" | \"Warranty shall run 24 months from delivery/commissioning, with 48-hour response, repair-or-replace at Supplier's option including field service at agreed rates.\" | must-change |\n| R10 | 4 | P0 | 价格与汇率 | 美元固定价 + 5 年合同期无调价机制，汇率波动全部由供应商承担 | \"Prices are stated in USD and are fixed for the entire term. …No price adjustment mechanism applies.\" | \"Prices in EUR; if USD, annual FX review with ±5% adjustment threshold and re-pricing for material cost increases.\" | must-change |\n| R11 | 6 | P0 | 交付与验收 | DAP Rotterdam 与「工厂装货即转移风险」自相矛盾，运输途中货损责任归属存在争议 | \"Supplier shall deliver the Products DAP Rotterdam. Risk of loss shall pass to Distributor upon loading at the Supplier's factory.\" | \"Risk of loss shall pass upon delivery at the DAP place (Rotterdam); Supplier to maintain all-risk cargo insurance to full value until delivery.\" | must-change |\n| R12 | 3 | P1 | 交付与验收 | 交付后 7 天即视为验收，异议仅限「重大缺陷」，无验收标准 | \"Products shall be deemed accepted by Distributor seven (7) days after delivery, unless Distributor submits a written objection describing a material defect.\" | \"Acceptance shall be 30 days from delivery against agreed written criteria; deemed acceptance only after that period expires without objection.\" | preferred |\n| R13 | 14 | P1 | 争议解决与适用法律 | 适用对方所在地法（荷兰法）+ 阿姆斯特丹仲裁 + 荷兰语 | \"This Agreement shall be governed by the laws of the Netherlands. Any dispute shall be finally settled by arbitration in Amsterdam…in the Dutch language.\" | \"Neutral governing law; ICC arbitration seated in Zurich/Vienna in English.\" | preferred |\n| R14 | 16 | P1 | 终止与退出 | 经销商可自由转让协议给关联方，供应商未经书面同意不得转让 | \"Distributor may assign this Agreement to any affiliate without Supplier's consent. Supplier may not assign this Agreement without Distributor's prior written consent.\" | \"Assignment requires mutual consent (not unreasonably withheld) and shall not relieve the assignor of its obligations.\" | preferred |\n\n## C. 修订措辞（Redline，P0 优先）\n\n1. **目标条款 §8 Limitation of Liability**\n   替换句：*\"Supplier's total aggregate liability under or in connection with this Agreement shall not exceed one hundred percent (100%) of the amounts paid or payable by Distributor in the twelve (12) months preceding the claim, and in no event shall Supplier be liable for indirect, incidental or consequential losses, lost profits or loss of data.\"*\n   谈判底线：总额上限 ≤ 合同额 100%；必须排除间接/后果损失。\n   可让步项：上限比例可谈（100%–150% 已付款），但必须设上限并排除间接损失。\n\n2. **目标条款 §9 Delay Penalties**\n   替换句：*\"Any penalty for late delivery shall be zero point five percent (0.5%) of the affected order value per week of delay, capped at five percent (5%) of the affected order value, and shall be Distributor's sole and exclusive remedy for late delivery. Equivalent penalties shall apply to Distributor for late payment and late forecast.\"*\n   谈判底线：违约金必须设上限（≤10%）且双向对等。\n   可让步项：单周比例与封顶比例可谈，但「无上限」「单向」不接受。\n\n3. **目标条款 §10 Term and Termination**\n   替换句：*\"Either party may terminate this Agreement for convenience upon one hundred eighty (180) days' written notice, not exercisable before the twenty-fourth (24th) month. Supplier may terminate upon thirty (30) days' written notice if Distributor commits a material breach or fails to pay any amount when due, and with immediate effect upon Distributor's insolvency.\"*\n   谈判底线：供应商必须获得对等的无理由终止权与 30 天违约终止权；便利终止不得早于第 24 个月。\n   可让步项：便利终止通知期可谈（90–180 天），但必须双向。\n\n4. **目标条款 §11 Intellectual Property**\n   替换句：*\"Supplier shall retain all right, title and interest in its background intellectual property and in all intellectual property created by Supplier under this Agreement. Distributor shall receive only a non-exclusive, non-transferable, Territory-limited licence for the term of this Agreement.\"*\n   谈判底线：供应商背景 IP 与自研成果必须归供应商所有；对方仅获得期限/地域受限的许可。\n   可让步项：对「为经销商定制的成果」可谈共同拥有或付费许可，但不得「全部归对方」。\n\n5. **目标条款 §15 Compliance**\n   替换句：*\"Supplier warrants that the Products comply with sanctions, export-control and battery regulations applicable to the Products in the Territory. Distributor's requests for compliance certificates shall be reasonable, in writing, specific and subject to a thirty (30)-day cure period before any termination right arises.\"*\n   谈判底线：合规保证必须限定在「产品在经销区域内适用」；删除「所有法域全球」；证书请求须合理并给 30 天补救期。\n   可让步项：可接受合理的证书清单，但不得「任何证书、立即解约」。\n\n6. **目标条款 §13 Force Majeure**\n   替换句：*\"Force majeure shall include, without limitation, supply chain disruptions, component shortages, freight delays, epidemics and export restrictions. A party may terminate this Agreement only if a force majeure event continues for more than one hundred twenty (120) days.\"*\n   谈判底线：供应链/零部件/货运必须纳入不可抗力；持续期延长到至少 90 天方可解约。\n   可让步项：持续期限可谈（90–120 天），但「供应链排除 + 30 天即解约」不接受。\n\n> 注：§4（价格汇率）、§5（付款）、§6（风险转移）、§7（质保）同为 P0 必须修改，替换措辞见上表明细「修改建议」列。\n\n## D. 机器可读结果\n\n```json\n{\n  \"contract\": \"WT-DIST-2026-014\",\n  \"overall_level\": \"P0\",\n  \"recommendation\": \"revise\",\n  \"clause_count\": 16,\n  \"checked_categories\": 12,\n  \"summary\": \"11 项 P0 均为签约前必须修改：责任无限、违约金无上限单向、终止权单向、IP 全部归对方、保密单向无限期、不可抗力排除供应链、全球合规无限保证，另有 120 天无息账期、发货起 12 个月仅工厂维修、固定美元价 5 年无调价。\",\n  \"risks\": [\n    {\n      \"id\": \"R1\",\n      \"clause\": \"8\",\n      \"level\": \"P0\",\n      \"category\": \"责任上限\",\n      \"issue\": \"供应商承担无限责任，含间接/后果损失，无总额上限\",\n      \"evidence\": \"Supplier shall be liable for all losses, damages, costs and expenses of any kind incurred by Distributor arising out of or in connection with this Agreement, including indirect and consequential losses, without any limitation of amount.\",\n      \"suggestion\": \"Supplier's total aggregate liability shall not exceed 100% of the amounts paid or payable by Distributor in the 12 months preceding the claim, and Supplier shall not be liable for indirect or consequential losses.\",\n      \"negotiability\": \"must-change\"\n    },\n    {\n      \"id\": \"R2\",\n      \"clause\": \"9\",\n      \"level\": \"P0\",\n      \"category\": \"违约责任\",\n      \"issue\": \"供应商单方违约金每周 30% 且无上限，经销商无对等违约金\",\n      \"evidence\": \"Supplier shall pay Distributor a penalty of thirty percent (30%) of the total order value per week of delay, without any cap. No equivalent penalty applies to Distributor for late payment or late forecasting.\",\n      \"suggestion\": \"Delay penalty shall be 0.5% of the affected order value per week, capped at 5%, as the exclusive remedy for late delivery; reciprocal penalties shall apply to Distributor for late payment and late forecast.\",\n      \"negotiability\": \"must-change\"\n    },\n    {\n      \"id\": \"R3\",\n      \"clause\": \"10\",\n      \"level\": \"P0\",\n      \"category\": \"终止与退出\",\n      \"issue\": \"经销商可 30 天无理由终止，供应商仅在破产或 90 天未补救重大违约时方可终止\",\n      \"evidence\": \"Distributor may terminate this Agreement at any time for convenience upon thirty (30) days' notice. Supplier may terminate only if Distributor becomes insolvent or commits a material breach that remains uncured for ninety (90) days.\",\n      \"suggestion\": \"Termination for convenience shall be mutual with 180 days' notice and not before month 24; Supplier may terminate on 30 days' notice for material breach or non-payment, and immediately for insolvency.\",\n      \"negotiability\": \"must-change\"\n    },\n    {\n      \"id\": \"R4\",\n      \"clause\": \"11\",\n      \"level\": \"P0\",\n      \"category\": \"知识产权\",\n      \"issue\": \"交付成果/定制/软件/文档全部 IP 归经销商，且供应商承担无上限第三方侵权赔偿\",\n      \"evidence\": \"All intellectual property rights in any deliverables, customization, software or documentation created under this Agreement shall vest exclusively in Distributor.\",\n      \"suggestion\": \"Supplier shall retain all background IP and IP it creates; Distributor receives only a non-exclusive, non-transferable, Territory-limited licence; indemnity capped and subject to prompt notice and control of defence.\",\n      \"negotiability\": \"must-change\"\n    },\n    {\n      \"id\": \"R5\",\n      \"clause\": \"12\",\n      \"level\": \"P0\",\n      \"category\": \"保密与数据\",\n      \"issue\": \"供应商对经销商信息承担无限期保密义务，而经销商可无限制披露供应商信息（单向）\",\n      \"evidence\": \"Distributor's confidential information shall be kept confidential by Supplier for an unlimited period. Supplier's confidential information may be disclosed by Distributor to its affiliates, resellers and service providers without restriction.\",\n      \"suggestion\": \"Confidentiality shall be mutual, limited to term plus five (5) years, with standard exceptions (public domain, legally required disclosure, independent development).\",\n      \"negotiability\": \"must-change\"\n    },\n    {\n      \"id\": \"R6\",\n      \"clause\": \"13\",\n      \"level\": \"P0\",\n      \"category\": \"不可抗力\",\n      \"issue\": \"供应链中断/零部件短缺/货运延迟被排除在供应商不可抗力外；持续 30 天经销商可立即解约\",\n      \"evidence\": \"Supply chain disruptions, component shortages and freight delays shall not constitute force majeure for Supplier. If force majeure continues for thirty (30) days, Distributor may terminate immediately without compensation.\",\n      \"suggestion\": \"Force majeure shall include supply chain disruption, component shortage and freight delay; termination only if force majeure continues for 120 days.\",\n      \"negotiability\": \"must-change\"\n    },\n    {\n      \"id\": \"R7\",\n      \"clause\": \"15\",\n      \"level\": \"P0\",\n      \"category\": \"合规\",\n      \"issue\": \"供应商须保证全球所有法域合规，且未应要求提供任何合规证书即构成经销商立即解约事由\",\n      \"evidence\": \"Supplier warrants that it complies with all applicable sanctions, export control and battery regulations in all jurisdictions worldwide. Distributor may terminate immediately if Supplier fails to provide any compliance certificate requested by Distributor.\",\n      \"suggestion\": \"Compliance warranty limited to laws applicable to the Products in the Territory; certificate requests reasonable, specific, in writing, with a 30-day cure period.\",\n      \"negotiability\": \"must-change\"\n    },\n    {\n      \"id\": \"R8\",\n      \"clause\": \"5\",\n      \"level\": \"P0\",\n      \"category\": \"付款与账期\",\n      \"issue\": \"账期 120 天、逾期不计息且供应商无暂停交付权\",\n      \"evidence\": \"Distributor shall pay each invoice within one hundred twenty (120) days after the invoice date. No interest shall accrue on late payments. Supplier shall not suspend deliveries for late payment.\",\n      \"suggestion\": \"Payment due within 30 days of invoice; late payment bears interest at 1.5% per month; Supplier may suspend deliveries on 14 days' written notice of non-payment.\",\n      \"negotiability\": \"must-change\"\n    },\n    {\n      \"id\": \"R9\",\n      \"clause\": \"7\",\n      \"level\": \"P0\",\n      \"category\": \"质保\",\n      \"issue\": \"质保自发货起仅 12 个月、仅限工厂维修，无现场服务/换新/响应时限\",\n      \"evidence\": \"Supplier warrants that the Products conform to the specifications for twelve (12) months from the date of shipment from the factory. Supplier's sole obligation is to repair defective Products at its factory.\",\n      \"suggestion\": \"Warranty shall run 24 months from delivery or commissioning, with 48-hour response, repair-or-replace at Supplier's option including field service at agreed rates.\",\n      \"negotiability\": \"must-change\"\n    },\n    {\n      \"id\": \"R10\",\n      \"clause\": \"4\",\n      \"level\": \"P0\",\n      \"category\": \"价格与汇率\",\n      \"issue\": \"美元固定价 + 5 年合同期无调价机制，汇率波动全部由供应商承担\",\n      \"evidence\": \"Prices are stated in USD and are fixed for the entire term. ... No price adjustment mechanism applies.\",\n      \"suggestion\": \"Prices in EUR; if in USD, annual FX review with ±5% adjustment threshold and re-pricing for material raw-material or freight cost changes.\",\n      \"negotiability\": \"must-change\"\n    },\n    {\n      \"id\": \"R11\",\n      \"clause\": \"6\",\n      \"level\": \"P0\",\n      \"category\": \"交付与验收\",\n      \"issue\": \"DAP Rotterdam 与「工厂装货即转移风险」自相矛盾，运输途中货损责任归属存在争议\",\n      \"evidence\": \"Supplier shall deliver the Products DAP Rotterdam. Risk of loss shall pass to Distributor upon loading at the Supplier's factory.\",\n      \"suggestion\": \"Risk of loss shall pass upon delivery at the DAP place (Rotterdam); Supplier to maintain all-risk cargo insurance to full invoice value until delivery.\",\n      \"negotiability\": \"must-change\"\n    },\n    {\n      \"id\": \"R12\",\n      \"clause\": \"3\",\n      \"level\": \"P1\",\n      \"category\": \"交付与验收\",\n      \"issue\": \"交付后 7 天即视为验收，异议仅限「重大缺陷」，无验收标准\",\n      \"evidence\": \"Products shall be deemed accepted by Distributor seven (7) days after delivery, unless Distributor submits a written objection describing a material defect.\",\n      \"suggestion\": \"Acceptance shall be 30 days from delivery against agreed written criteria; deemed acceptance only after that period expires without written objection.\",\n      \"negotiability\": \"preferred\"\n    },\n    {\n      \"id\": \"R13\",\n      \"clause\": \"14\",\n      \"level\": \"P1\",\n      \"category\": \"争议解决与适用法律\",\n      \"issue\": \"适用对方所在地法（荷兰法）+ 阿姆斯特丹仲裁 + 荷兰语\",\n      \"evidence\": \"This Agreement shall be governed by the laws of the Netherlands. Any dispute shall be finally settled by arbitration in Amsterdam under the rules of the Netherlands Arbitration Institute, in the Dutch language.\",\n      \"suggestion\": \"Neutral governing law; ICC arbitration seated in Zurich or Vienna, conducted in English.\",\n      \"negotiability\": \"preferred\"\n    },\n    {\n      \"id\": \"R14\",\n      \"clause\": \"16\",\n      \"level\": \"P1\",\n      \"category\": \"终止与退出\",\n      \"issue\": \"经销商可自由转让协议给关联方，供应商未经书面同意不得转让\",\n      \"evidence\": \"Distributor may assign this Agreement to any affiliate without Supplier's consent. Supplier may not assign this Agreement without Distributor's prior written consent.\",\n      \"suggestion\": \"Assignment requires mutual consent (not to be unreasonably withheld) and shall not relieve the assignor of its obligations.\",\n      \"negotiability\": \"preferred\"\n    }\n  ],\n  \"missing_clauses\": [\n    \"最低采购承诺（独占经销无最低采购义务）\",\n    \"终止后库存回购安排\",\n    \"数据跨境与客户信息处理条款\",\n    \"质保响应时限\",\n    \"责任总额上限\",\n    \"逾期利息与暂停交付权（现被明确排除）\"\n  ]\n}\n```",
+  "result": {
+    "contract": "WT-DIST-2026-014",
+    "overall_level": "P0",
+    "recommendation": "revise",
+    "clause_count": 16,
+    "checked_categories": 12,
+    "summary": "11 项 P0 均为签约前必须修改：责任无限、违约金无上限单向、终止权单向、IP 全部归对方、保密单向无限期、不可抗力排除供应链、全球合规无限保证，另有 120 天无息账期、发货起 12 个月仅工厂维修、固定美元价 5 年无调价。",
+    "risks": [
+      {
+        "id": "R1",
+        "clause": "8",
+        "level": "P0",
+        "category": "责任上限",
+        "issue": "供应商承担无限责任，含间接/后果损失，无总额上限",
+        "evidence": "Supplier shall be liable for all losses, damages, costs and expenses of any kind incurred by Distributor arising out of or in connection with this Agreement, including indirect and consequential losses, without any limitation of amount.",
+        "suggestion": "Supplier's total aggregate liability shall not exceed 100% of the amounts paid or payable by Distributor in the 12 months preceding the claim, and Supplier shall not be liable for indirect or consequential losses.",
+        "negotiability": "must-change"
+      },
+      {
+        "id": "R2",
+        "clause": "9",
+        "level": "P0",
+        "category": "违约责任",
+        "issue": "供应商单方违约金每周 30% 且无上限，经销商无对等违约金",
+        "evidence": "Supplier shall pay Distributor a penalty of thirty percent (30%) of the total order value per week of delay, without any cap. No equivalent penalty applies to Distributor for late payment or late forecasting.",
+        "suggestion": "Delay penalty shall be 0.5% of the affected order value per week, capped at 5%, as the exclusive remedy for late delivery; reciprocal penalties shall apply to Distributor for late payment and late forecast.",
+        "negotiability": "must-change"
+      },
+      {
+        "id": "R3",
+        "clause": "10",
+        "level": "P0",
+        "category": "终止与退出",
+        "issue": "经销商可 30 天无理由终止，供应商仅在破产或 90 天未补救重大违约时方可终止",
+        "evidence": "Distributor may terminate this Agreement at any time for convenience upon thirty (30) days' notice. Supplier may terminate only if Distributor becomes insolvent or commits a material breach that remains uncured for ninety (90) days.",
+        "suggestion": "Termination for convenience shall be mutual with 180 days' notice and not before month 24; Supplier may terminate on 30 days' notice for material breach or non-payment, and immediately for insolvency.",
+        "negotiability": "must-change"
+      },
+      {
+        "id": "R4",
+        "clause": "11",
+        "level": "P0",
+        "category": "知识产权",
+        "issue": "交付成果/定制/软件/文档全部 IP 归经销商，且供应商承担无上限第三方侵权赔偿",
+        "evidence": "All intellectual property rights in any deliverables, customization, software or documentation created under this Agreement shall vest exclusively in Distributor.",
+        "suggestion": "Supplier shall retain all background IP and IP it creates; Distributor receives only a non-exclusive, non-transferable, Territory-limited licence; indemnity capped and subject to prompt notice and control of defence.",
+        "negotiability": "must-change"
+      },
+      {
+        "id": "R5",
+        "clause": "12",
+        "level": "P0",
+        "category": "保密与数据",
+        "issue": "供应商对经销商信息承担无限期保密义务，而经销商可无限制披露供应商信息（单向）",
+        "evidence": "Distributor's confidential information shall be kept confidential by Supplier for an unlimited period. Supplier's confidential information may be disclosed by Distributor to its affiliates, resellers and service providers without restriction.",
+        "suggestion": "Confidentiality shall be mutual, limited to term plus five (5) years, with standard exceptions (public domain, legally required disclosure, independent development).",
+        "negotiability": "must-change"
+      },
+      {
+        "id": "R6",
+        "clause": "13",
+        "level": "P0",
+        "category": "不可抗力",
+        "issue": "供应链中断/零部件短缺/货运延迟被排除在供应商不可抗力外；持续 30 天经销商可立即解约",
+        "evidence": "Supply chain disruptions, component shortages and freight delays shall not constitute force majeure for Supplier. If force majeure continues for thirty (30) days, Distributor may terminate immediately without compensation.",
+        "suggestion": "Force majeure shall include supply chain disruption, component shortage and freight delay; termination only if force majeure continues for 120 days.",
+        "negotiability": "must-change"
+      },
+      {
+        "id": "R7",
+        "clause": "15",
+        "level": "P0",
+        "category": "合规",
+        "issue": "供应商须保证全球所有法域合规，且未应要求提供任何合规证书即构成经销商立即解约事由",
+        "evidence": "Supplier warrants that it complies with all applicable sanctions, export control and battery regulations in all jurisdictions worldwide. Distributor may terminate immediately if Supplier fails to provide any compliance certificate requested by Distributor.",
+        "suggestion": "Compliance warranty limited to laws applicable to the Products in the Territory; certificate requests reasonable, specific, in writing, with a 30-day cure period.",
+        "negotiability": "must-change"
+      },
+      {
+        "id": "R8",
+        "clause": "5",
+        "level": "P0",
+        "category": "付款与账期",
+        "issue": "账期 120 天、逾期不计息且供应商无暂停交付权",
+        "evidence": "Distributor shall pay each invoice within one hundred twenty (120) days after the invoice date. No interest shall accrue on late payments. Supplier shall not suspend deliveries for late payment.",
+        "suggestion": "Payment due within 30 days of invoice; late payment bears interest at 1.5% per month; Supplier may suspend deliveries on 14 days' written notice of non-payment.",
+        "negotiability": "must-change"
+      },
+      {
+        "id": "R9",
+        "clause": "7",
+        "level": "P0",
+        "category": "质保",
+        "issue": "质保自发货起仅 12 个月、仅限工厂维修，无现场服务/换新/响应时限",
+        "evidence": "Supplier warrants that the Products conform to the specifications for twelve (12) months from the date of shipment from the factory. Supplier's sole obligation is to repair defective Products at its factory.",
+        "suggestion": "Warranty shall run 24 months from delivery or commissioning, with 48-hour response, repair-or-replace at Supplier's option including field service at agreed rates.",
+        "negotiability": "must-change"
+      },
+      {
+        "id": "R10",
+        "clause": "4",
+        "level": "P0",
+        "category": "价格与汇率",
+        "issue": "美元固定价 + 5 年合同期无调价机制，汇率波动全部由供应商承担",
+        "evidence": "Prices are stated in USD and are fixed for the entire term. ... No price adjustment mechanism applies.",
+        "suggestion": "Prices in EUR; if in USD, annual FX review with ±5% adjustment threshold and re-pricing for material raw-material or freight cost changes.",
+        "negotiability": "must-change"
+      },
+      {
+        "id": "R11",
+        "clause": "6",
+        "level": "P0",
+        "category": "交付与验收",
+        "issue": "DAP Rotterdam 与「工厂装货即转移风险」自相矛盾，运输途中货损责任归属存在争议",
+        "evidence": "Supplier shall deliver the Products DAP Rotterdam. Risk of loss shall pass to Distributor upon loading at the Supplier's factory.",
+        "suggestion": "Risk of loss shall pass upon delivery at the DAP place (Rotterdam); Supplier to maintain all-risk cargo insurance to full invoice value until delivery.",
+        "negotiability": "must-change"
+      },
+      {
+        "id": "R12",
+        "clause": "3",
+        "level": "P1",
+        "category": "交付与验收",
+        "issue": "交付后 7 天即视为验收，异议仅限「重大缺陷」，无验收标准",
+        "evidence": "Products shall be deemed accepted by Distributor seven (7) days after delivery, unless Distributor submits a written objection describing a material defect.",
+        "suggestion": "Acceptance shall be 30 days from delivery against agreed written criteria; deemed acceptance only after that period expires without written objection.",
+        "negotiability": "preferred"
+      },
+      {
+        "id": "R13",
+        "clause": "14",
+        "level": "P1",
+        "category": "争议解决与适用法律",
+        "issue": "适用对方所在地法（荷兰法）+ 阿姆斯特丹仲裁 + 荷兰语",
+        "evidence": "This Agreement shall be governed by the laws of the Netherlands. Any dispute shall be finally settled by arbitration in Amsterdam under the rules of the Netherlands Arbitration Institute, in the Dutch language.",
+        "suggestion": "Neutral governing law; ICC arbitration seated in Zurich or Vienna, conducted in English.",
+        "negotiability": "preferred"
+      },
+      {
+        "id": "R14",
+        "clause": "16",
+        "level": "P1",
+        "category": "终止与退出",
+        "issue": "经销商可自由转让协议给关联方，供应商未经书面同意不得转让",
+        "evidence": "Distributor may assign this Agreement to any affiliate without Supplier's consent. Supplier may not assign this Agreement without Distributor's prior written consent.",
+        "suggestion": "Assignment requires mutual consent (not to be unreasonably withheld) and shall not relieve the assignor of its obligations.",
+        "negotiability": "preferred"
+      }
+    ],
+    "missing_clauses": [
+      "最低采购承诺（独占经销无最低采购义务）",
+      "终止后库存回购安排",
+      "数据跨境与客户信息处理条款",
+      "质保响应时限",
+      "责任总额上限",
+      "逾期利息与暂停交付权（现被明确排除）"
+    ]
+  },
+  "model": "deepseek/deepseek-v4-pro",
+  "sessionId": "01a17271-371c-71cb-918d-a9f5e74555cf",
+  "sessionFile": "C:\\Users\\G\\AppData\\Local\\Temp\\voltai-contract-guard-sessions\\2026-10-25T09-43-04-733Z_01a17271-371c-71cb-918d-a9f5e74555cf.jsonl",
+  "skills": [
+    "contract-risk-audit",
+    "contract-clause-parser",
+    "contract-risk-review"
+  ],
+  "toolCalls": [
+    "read"
+  ],
+  "elapsed_ms": 152695
+}
